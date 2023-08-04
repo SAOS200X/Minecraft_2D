@@ -1,4 +1,6 @@
 #pragma once
+#include "MainMenuState.h"
+
 class Core
 {
 public:
@@ -13,7 +15,10 @@ private:
 // -----------------------INIT ------------------------
 	void init();
 	void initDefaultWindow();
-	void initWindow();
+	void initWindow(std::string filePath);
+	void initState();
+
+
 	void loadSetting();
 
 // -----------------------UPDATE----------------------
@@ -32,6 +37,8 @@ private:
 	sf::View* view;
 	sf::Event ev;
 	sf::Clock clock;
+
+	std::stack<State*> states;
 
 	
 // ----------------------VARIANT---------------------

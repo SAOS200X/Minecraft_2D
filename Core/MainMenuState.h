@@ -9,5 +9,12 @@ public:
 
     void update() override;
     void render(sf::RenderTarget* target) override;
+
+private:
+    void initTexture(std::string filePath);
+
+private:
+    sf::Texture* texture;
+    sf::Sprite backGround;
 };
 

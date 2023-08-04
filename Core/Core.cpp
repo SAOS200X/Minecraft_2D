@@ -12,6 +12,12 @@ Core::~Core()
 		delete DefaultWindow;
 	if (window != DefaultWindow)
 		delete window;
+
+	while (!states.empty())
+	{
+		delete states.top();
+		states.pop();
+	}
 }
 
 void Core::run()
@@ -23,6 +29,8 @@ void Core::run()
 	}
 }
 
+////////////////////////////////////////////////////// INIT ////////////////////////////////////////////////////////
+
 void Core::init()
 {
 	srand(static_cast<unsigned int>(time(0)));
@@ -31,7 +39,7 @@ void Core::init()
 
 	//loadSetting();
 
-	initWindow();
+	initWindow("resource/window.init");
 
 	clock.restart();
 }
@@ -43,7 +51,7 @@ void Core::initDefaultWindow()
 	DefaultWindow->setFramerateLimit(30);
 }
 
-void Core::initWindow()
+void Core::initWindow(std::string filePath)
 {
 	logMSG("this is text 1!");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
@@ -51,7 +59,7 @@ void Core::initWindow()
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 	logMSG("this is text 3!");
 
-	std::ifstream INFILE("window.init");
+	std::ifstream INFILE(filePath);
 	if (INFILE.is_open())
 	{
 		sf::Vector2u window_size;
@@ -75,11 +83,16 @@ void Core::initWindow()
 	}
 	else
 	{
-		logMSG("couldn't open file!");
+		logMSG("couldn't open file: " + filePath);
 
 		window = DefaultWindow;
 	}
 	INFILE.close();
+}
+
+void Core::initState()
+{
+	states.push(new MainMenuState());
 }
 
 void Core::loadSetting()
@@ -101,15 +114,20 @@ void Core::updateInput()
 
 }
 
+//////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////
 
 void Core::update()
 {
 	updateInput();
+
+	states.top()->update();
 }
 
 void Core::render()
 {
 	window->clear();
+
+	states.top()->render(window);
 
 	window->display();
 }

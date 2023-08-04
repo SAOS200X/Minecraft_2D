@@ -3,7 +3,8 @@
 
 MainMenuState::MainMenuState()
 {
-	initTexture("resource/bg.jpg");
+	initTexture("resource/image/bg.jpg");
+	initButton();
 }
 
 MainMenuState::~MainMenuState()
@@ -12,6 +13,10 @@ MainMenuState::~MainMenuState()
 }
 
 void MainMenuState::update()
+{
+}
+
+void MainMenuState::updateButton()
 {
 }
 
@@ -24,7 +29,12 @@ void MainMenuState::initTexture(std::string filePath)
 {
 	texture = new sf::Texture;
 	if (!texture->loadFromFile(filePath))
-		logMSG("Couldn't open file: " + filePath);
+		logWARNING("Couldn't open file: " + filePath);
 
 	backGround.setTexture(*texture);
+}
+
+void MainMenuState::initButton()
+{
+	buttons.push_back(new Button(sf::Vector2u(100,50),sf::Vector2f(200.f,200.f),sf::Color()))
 }

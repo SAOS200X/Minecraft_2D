@@ -36,10 +36,9 @@ void Core::init()
 	srand(static_cast<unsigned int>(time(0)));
 
 	initDefaultWindow();
-
 	//loadSetting();
-
-	initWindow("resource/window.init");
+	initWindow("resource/init/window.init");
+	initState();
 
 	clock.restart();
 }
@@ -53,12 +52,6 @@ void Core::initDefaultWindow()
 
 void Core::initWindow(std::string filePath)
 {
-	logMSG("this is text 1!");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-	logMSG("this is text 2!");
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
-	logMSG("this is text 3!");
-
 	std::ifstream INFILE(filePath);
 	if (INFILE.is_open())
 	{
@@ -71,7 +64,8 @@ void Core::initWindow(std::string filePath)
 		INFILE.ignore();
 		INFILE >> window_size.y;
 		INFILE >> fps_limit;
-		INFILE >> title;
+		INFILE.ignore();
+		std::getline(INFILE, title);
 
 
 		window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y),
@@ -83,7 +77,7 @@ void Core::initWindow(std::string filePath)
 	}
 	else
 	{
-		logMSG("couldn't open file: " + filePath);
+		logWARNING("couldn't open file: " + filePath);
 
 		window = DefaultWindow;
 	}
@@ -120,14 +114,16 @@ void Core::update()
 {
 	updateInput();
 
-	states.top()->update();
+	if (!states.empty())
+		states.top()->update();
 }
 
 void Core::render()
 {
 	window->clear();
 
-	states.top()->render(window);
+	if (!states.empty())
+		states.top()->render(window);
 
 	window->display();
 }

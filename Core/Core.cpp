@@ -18,6 +18,8 @@ Core::~Core()
 		delete states.top();
 		states.pop();
 	}
+
+	delete font;
 }
 
 void Core::run()
@@ -35,12 +37,22 @@ void Core::init()
 {
 	srand(static_cast<unsigned int>(time(0)));
 
+	initFont("resource/font.ttf");
 	initDefaultWindow();
-	//loadSetting();
 	initWindow("resource/init/window.init");
 	initState();
+	initSystem();
 
 	clock.restart();
+}
+
+void Core::initFont(std::string filePath)
+{
+	this->font = new sf::Font;
+	if (!font->loadFromFile(filePath))
+		logWARNING("couldn't open file: " + filePath);
+
+	text.setFont(*font);
 }
 
 void Core::initDefaultWindow()
@@ -78,20 +90,37 @@ void Core::initWindow(std::string filePath)
 	else
 	{
 		logWARNING("couldn't open file: " + filePath);
-
 		window = DefaultWindow;
 	}
 	INFILE.close();
+
+	s_System::window = this->window;
 }
 
 void Core::initState()
 {
 	states.push(new MainMenuState());
+
+	State::states = &this->states;
 }
 
-void Core::loadSetting()
+void Core::initSystem()
 {
-	
+	s_System::window = this->window;
+	s_System::font = this->font;
+}
+
+
+//////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////
+
+void Core::update()
+{
+	updateInput();
+
+	if (!states.empty())
+		states.top()->update();
+
+	updateTextDebug();
 }
 
 void Core::updateInput()
@@ -106,17 +135,21 @@ void Core::updateInput()
 			window->close();
 	}
 
+	s_System::mousePosWindow = sf::Mouse::getPosition(*window);
+
 }
 
-//////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////
-
-void Core::update()
+void Core::updateTextDebug()
 {
-	updateInput();
-
-	if (!states.empty())
-		states.top()->update();
+	auto m = s_System::getMousePosWindow();
+	std::stringstream ss;
+	ss << m.x << " " << m.y;
+	text.setCharacterSize(16);
+	text.setOutlineThickness(2.f);
+	text.setString(ss.str());
+	text.setPosition(m.x + 10.f, m.y + 10.f);
 }
+
 
 void Core::render()
 {
@@ -124,6 +157,7 @@ void Core::render()
 
 	if (!states.empty())
 		states.top()->render(window);
+	window->draw(text);
 
 	window->display();
 }

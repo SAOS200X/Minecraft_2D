@@ -2,12 +2,14 @@
 class Button
 {
 public:
-	Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Font* font = nullptr, float characterSize = 0, std::string str = "");
+	Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Font* font = nullptr, unsigned int characterSize = 0, std::string str = "");
 	Button(sf::Texture* texture, sf::Vector2f position);
+	Button(std::string filePath, sf::Vector2f position);
+
 
 	~Button();
 
-	void update(sf::Vector2f mousePosWindow);
+	void update(sf::Vector2i mousePosWindow);
 	void render(sf::RenderTarget* target);
 
 	inline const bool isActive() const { return active; };

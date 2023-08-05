@@ -3,8 +3,11 @@
 
 State::State()
 {
+	
 }
 
 State::~State()
 {
 }
+
+std::stack<State*>* State::states = nullptr;

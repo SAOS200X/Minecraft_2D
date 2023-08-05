@@ -9,7 +9,7 @@ public:
     ~MainMenuState();
 
     void update() override;
-    void updateButton();
+    void updateButtonActive();
 
     void render(sf::RenderTarget* target) override;
 
@@ -21,6 +21,6 @@ private:
     sf::Texture* texture;
     sf::Sprite backGround;
 
-    std::vector<Button*> buttons;
+    std::map<std::string, Button*> buttons;
 };
 

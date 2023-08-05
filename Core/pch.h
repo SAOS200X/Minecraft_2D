@@ -4,6 +4,8 @@
 #include <fstream>
 #include <stack>
 #include <vector>
+#include <map>
+#include <sstream>
 
 #include "SFML/Graphics.hpp"
 #include <Windows.h>

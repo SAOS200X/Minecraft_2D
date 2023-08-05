@@ -14,17 +14,18 @@ public:
 private:
 // -----------------------INIT ------------------------
 	void init();
+	void initFont(std::string filePath);
 	void initDefaultWindow();
 	void initWindow(std::string filePath);
 	void initState();
+	void initSystem();
 
-
-	void loadSetting();
 
 // -----------------------UPDATE----------------------
-	void updateInput();
-
 	void update();
+	void updateInput();
+	void updateTextDebug();
+
 
 // ----------------------RENDER-------------------
 	void render();
@@ -42,6 +43,9 @@ private:
 
 	
 // ----------------------VARIANT---------------------
-	float dt;
+	sf::Int32 dt;
+
+	sf::Font* font;
+	sf::Text text;
 };
 

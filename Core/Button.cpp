@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "Button.h"
 
-Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Font* font, float characterSize, std::string str)
+Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Font* font, unsigned int characterSize, std::string str)
 {
 	active = false;
-
+	this->font = font;
 	this->texture = new sf::Texture;
-	this->texture->create(size.x, size.y);
+
+	if (!this->texture->create(size.x, size.y))
+		logWARNING("couldn't create texture!");
 
 	sprite.setTexture(*texture);
 	sprite.setOrigin(size.x / 2.f, size.y / 2.f);
@@ -14,7 +16,6 @@ Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Fo
 	sprite.setColor(color);
 	defaultColor = color;
 
-	this->font = font;
 	if (font)
 	{
 		text.setFont(*font);
@@ -28,15 +29,28 @@ Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Fo
 Button::Button(sf::Texture* texture, sf::Vector2f position)
 {
 	active = false;
-
+	font = nullptr;
 	this->texture = nullptr;
 
 	sprite.setTexture(*texture);
 	sprite.setOrigin(texture->getSize().x / 2.f, texture->getSize().y / 2.f);
 	sprite.setPosition(position);
 	defaultColor = sf::Color::White;
+}
 
+Button::Button(std::string filePath, sf::Vector2f position)
+{
+	active = false;
 	font = nullptr;
+	this->texture = new sf::Texture;
+
+	if (!this->texture->loadFromFile(filePath))
+		logWARNING("couldn't open file: " + filePath);
+
+	sprite.setTexture(*texture);
+	sprite.setOrigin(texture->getSize().x / 2.f, texture->getSize().y / 2.f);
+	sprite.setPosition(position);
+	defaultColor = sf::Color::White;
 }
 
 Button::~Button()
@@ -45,19 +59,19 @@ Button::~Button()
 		delete texture;
 }
 
-void Button::update(sf::Vector2f mousePosWindow)
+void Button::update(sf::Vector2i mousePosWindow)
 {
 	active = false;
 
-	if (sprite.getGlobalBounds().contains(mousePosWindow))
+	if (sprite.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
-			sprite.setColor(defaultColor - sf::Color(100, 100, 0, 50));
+			sprite.setColor(defaultColor - sf::Color(100, 100, 0, 20));
 			active = true;
 		}
 		else
-			sprite.setColor(defaultColor - sf::Color(50, 50, 0, 25));
+			sprite.setColor(defaultColor - sf::Color(80, 80, 0, 0));
 
 	}
 	else

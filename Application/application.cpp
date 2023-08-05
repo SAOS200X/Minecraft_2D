@@ -9,7 +9,7 @@
 dllprocess void start();
 
 
-void main()
+int main()
 {
 	start();
 }

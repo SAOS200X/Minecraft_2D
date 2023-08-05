@@ -4,8 +4,10 @@ class s_System
 {
 public:
 
-	static const sf::RenderWindow const* getWindow();
+	static const sf::RenderWindow* const getWindow();
 	static const sf::Vector2i& getMousePosWindow();
+	static const sf::Font* const getFont();
+	static const INT32* const getDeltaTime();
 
 	friend class Core;
 private:
@@ -13,8 +15,9 @@ private:
 	static std::map<unsigned short, s_System::state> KeyState;
 	static std::map<unsigned short, s_System::state> MouseState;
 	
-	static sf::RenderWindow const* window;
+	static const sf::RenderWindow* window;
 	static sf::Font* font;
 	static sf::Vector2i mousePosWindow;
+	static INT32* dt;
 };
 

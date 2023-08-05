@@ -9,7 +9,7 @@ public:
 
 	~Button();
 
-	void update(sf::Vector2i mousePosWindow);
+	void update(sf::Vector2f mousePosWindow);
 	void render(sf::RenderTarget* target);
 
 	inline const bool isActive() const { return active; };

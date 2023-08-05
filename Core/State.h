@@ -14,5 +14,7 @@ public:
 
 protected:
 	static std::stack<State*>* states;
+	sf::Texture* texture;
+	sf::Sprite sprite;
 };
 

@@ -1,12 +1,12 @@
 #pragma once
 #include "State.h"
-
-class MainMenuState :
+#include "DropDownBox.h"
+class SettingState :
     public State
 {
 public:
-    MainMenuState();
-    ~MainMenuState();
+    SettingState();
+    ~SettingState();
 
     void update() override;
     void updateButtonActive();
@@ -16,9 +16,10 @@ public:
 private:
     void initTexture(std::string filePath);
     void initButton();
+    void initDropBox();
 
 private:
+    std::map<std::string, DropDownBox*> settings;
 
-    std::map<std::string, Button*> buttons;
 };
 

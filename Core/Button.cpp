@@ -59,11 +59,11 @@ Button::~Button()
 		delete texture;
 }
 
-void Button::update(sf::Vector2i mousePosWindow)
+void Button::update(sf::Vector2f mousePosWindow)
 {
 	active = false;
 
-	if (sprite.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
+	if (sprite.getGlobalBounds().contains(mousePosWindow))
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{

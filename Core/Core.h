@@ -14,6 +14,7 @@ public:
 private:
 // -----------------------INIT ------------------------
 	void init();
+	void initDefault();
 	void initFont(std::string filePath);
 	void initDefaultWindow();
 	void initWindow(std::string filePath);

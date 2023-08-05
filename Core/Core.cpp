@@ -24,7 +24,7 @@ Core::~Core()
 
 void Core::run()
 {
-	while (window->isOpen())
+	while (window->isOpen() && !states.empty())
 	{
 		update();
 		render();
@@ -35,14 +35,24 @@ void Core::run()
 
 void Core::init()
 {
-	srand(static_cast<unsigned int>(time(0)));
-
+	initDefault();
 	initFont("resource/font.ttf");
 	initDefaultWindow();
 	initWindow("resource/init/window.init");
-	initState();
+
 	initSystem();
 
+	initState();
+}
+
+void Core::initDefault()
+{
+	srand(static_cast<unsigned int>(time(0)));
+	DefaultWindow = nullptr;
+	window = nullptr;
+	view = nullptr;
+	dt = 0;
+	font = nullptr;
 	clock.restart();
 }
 
@@ -93,8 +103,6 @@ void Core::initWindow(std::string filePath)
 		window = DefaultWindow;
 	}
 	INFILE.close();
-
-	s_System::window = this->window;
 }
 
 void Core::initState()
@@ -108,6 +116,7 @@ void Core::initSystem()
 {
 	s_System::window = this->window;
 	s_System::font = this->font;
+	s_System::dt = &this->dt;
 }
 
 
@@ -132,7 +141,7 @@ void Core::updateInput()
 		if (ev.type == sf::Event::Closed)
 			window->close();
 		else if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)
-			window->close();
+			State::states->pop();
 	}
 
 	s_System::mousePosWindow = sf::Mouse::getPosition(*window);

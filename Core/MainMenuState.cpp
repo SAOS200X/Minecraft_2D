@@ -18,7 +18,7 @@ MainMenuState::~MainMenuState()
 
 void MainMenuState::update()
 {
-	for (auto i : buttons)
+	for (auto& i : buttons)
 		i.second->update(static_cast<sf::Vector2f>(s_System::getMousePosWindow()));
 
 	updateButtonActive();
@@ -26,7 +26,7 @@ void MainMenuState::update()
 
 void MainMenuState::updateButtonActive()
 {
-	for (auto i : buttons)
+	for (auto& i : buttons)
 	{
 		if (i.second->isActive())
 		{

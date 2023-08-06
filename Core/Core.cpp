@@ -47,7 +47,6 @@ void Core::init()
 
 void Core::initDefault()
 {
-	srand(static_cast<unsigned int>(time(0)));
 	DefaultWindow = nullptr;
 	window = nullptr;
 	view = nullptr;

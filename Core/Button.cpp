@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Button.h"
 
-Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, sf::Font* font, unsigned int characterSize, std::string str)
+Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, std::string str)
 {
 	active = false;
 	this->font = font;

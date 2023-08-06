@@ -9,7 +9,7 @@ public:
 	void render(sf::RenderTarget* target);
 
 	void push(std::string str);
-	void setCurrent(UINT16 current);
+	void setCurrent(unsigned short current);
 
 private:
 	void init();

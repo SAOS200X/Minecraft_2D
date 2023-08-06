@@ -104,7 +104,7 @@ void DropDownBox::push(std::string str)
 	vector.push_back(str);
 }
 
-void DropDownBox::setCurrent(UINT16 current)
+void DropDownBox::setCurrent(unsigned short current)
 {
 	if (current <= max)
 		this->current = current;

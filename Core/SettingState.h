@@ -16,10 +16,14 @@ public:
 private:
     void initTexture(std::string filePath);
     void initButton();
-    void initDropBox();
+    void initDropBoxs(std::string filePath);
+    void addDropBox(sf::Vector2f size, sf::Vector2f position, std::vector<std::string>& tokens, unsigned short current);
+
+    void applySetting();
 
 private:
     std::map<std::string, DropDownBox*> settings;
+    std::map<std::string, Button*> buttons;
 
 };
 

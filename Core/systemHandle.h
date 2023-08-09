@@ -1,6 +1,6 @@
 #pragma once
 
-class s_System
+class systemHandle
 {
 public:
 
@@ -12,8 +12,8 @@ public:
 	friend class Core;
 private:
 	enum state {release, pressed, hold};
-	static std::map<unsigned short, s_System::state> KeyState;
-	static std::map<unsigned short, s_System::state> MouseState;
+	static std::map<unsigned short, systemHandle::state> KeyState;
+	static std::map<unsigned short, systemHandle::state> MouseState;
 	
 	static const sf::RenderWindow* window;
 	static sf::Font* font;

@@ -4,7 +4,7 @@
 Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, std::string str)
 {
 	active = false;
-	this->font = font;
+	text.setFont(*font);
 	this->texture = new sf::Texture;
 
 	if (!this->texture->create(size.x, size.y))
@@ -29,7 +29,6 @@ Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, const 
 Button::Button(sf::Texture* texture, sf::Vector2f position)
 {
 	active = false;
-	font = nullptr;
 	this->texture = nullptr;
 
 	sprite.setTexture(*texture);
@@ -41,7 +40,6 @@ Button::Button(sf::Texture* texture, sf::Vector2f position)
 Button::Button(std::string filePath, sf::Vector2f position)
 {
 	active = false;
-	font = nullptr;
 	this->texture = new sf::Texture;
 
 	if (!this->texture->loadFromFile(filePath))
@@ -82,8 +80,7 @@ void Button::update(sf::Vector2f mousePosWindow)
 void Button::render(sf::RenderTarget* target)
 {
 	target->draw(sprite);
-
-	if (font)
+	if (text.getFont())
 		target->draw(text);
 }
 

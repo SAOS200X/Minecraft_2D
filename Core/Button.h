@@ -22,7 +22,6 @@ private:
 	sf::Sprite sprite;
 	sf::Color defaultColor;
 
-	sf::Font* font;
 	sf::Text text;
 
 	bool active;

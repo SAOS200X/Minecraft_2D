@@ -1,34 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="States">
       <UniqueIdentifier>{90142e9a-4ee7-414a-8c94-d9fb1895efe4}</UniqueIdentifier>
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{4bb5020e-69c9-4838-afad-61ce3ee7b041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{0717d656-58e7-4763-bf25-03a9a26aba70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stuff">
+      <UniqueIdentifier>{e4100747-c082-4208-880d-af096262dce2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="s_System.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenuState.cpp">
       <Filter>States</Filter>
     </ClCompile>
@@ -47,17 +33,23 @@
     <ClCompile Include="DropDownBox.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="s_System.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="inordered_map.cpp">
+      <Filter>Stuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="s_System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenuState.h">
       <Filter>States</Filter>
     </ClInclude>
@@ -75,6 +67,18 @@
     </ClInclude>
     <ClInclude Include="DropDownBox.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="s_System.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="inordered_map.h">
+      <Filter>Stuff</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

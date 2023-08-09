@@ -100,6 +100,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DropDownBox.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="inordered_map.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="pch.cpp">
@@ -115,6 +116,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="DropDownBox.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="inordered_map.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SettingState.h" />

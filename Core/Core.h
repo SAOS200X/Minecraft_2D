@@ -16,10 +16,13 @@ private:
 	void init();
 	void initDefault();
 	void initFont(std::string filePath);
+
+
+	void initSettingHandle();
 	void initDefaultWindow();
 	void initWindow(std::string filePath);
 	void initState();
-	void initSystem();
+	void initSystemHandle();
 
 
 // -----------------------UPDATE----------------------
@@ -34,7 +37,7 @@ private:
 
 private:
 // ---------------------APP----------------------------
-	sf::RenderWindow* DefaultWindow;
+	sf::RenderWindow* defaultWindow;
 	sf::RenderWindow* window;
 	sf::View* view;
 	sf::Event ev;

@@ -1,16 +1,18 @@
 #include "pch.h"
 #include "Core.h"
+#include "systemHandle.h"
+#include "settingHandle.h"
 
 Core::Core()
-{
+{ 
 	init();
 }
 
 Core::~Core()
 {
-	if (DefaultWindow)
-		delete DefaultWindow;
-	if (window != DefaultWindow)
+	if (defaultWindow)
+		delete defaultWindow;
+	else
 		delete window;
 
 	while (!states.empty())
@@ -37,17 +39,20 @@ void Core::init()
 {
 	initDefault();
 	initFont("resource/font.ttf");
+
+
+
+	initSettingHandle();
 	initDefaultWindow();
 	initWindow("resource/init/window.init");
 
-	initSystem();
-
+	initSystemHandle();
 	initState();
 }
 
 void Core::initDefault()
 {
-	DefaultWindow = nullptr;
+	defaultWindow = nullptr;
 	window = nullptr;
 	view = nullptr;
 	dt = 0;
@@ -64,44 +69,85 @@ void Core::initFont(std::string filePath)
 	text.setFont(*font);
 }
 
+void Core::initSettingHandle()
+{
+	settingHandle::loadSetting("resource/init/setting.init");
+	settingHandle::title = "Minecraft 2D";
+	settingHandle::m_setting.at("RESOLUTION")->current = 3;
+	settingHandle::m_setting.at("FPS")->current = 0;
+
+}
+
 void Core::initDefaultWindow()
 {
-	DefaultWindow = new sf::RenderWindow(sf::VideoMode(800, 600),
+	defaultWindow = new sf::RenderWindow(sf::VideoMode(800, 600),
 		"Default", sf::Style::Close | sf::Style::Titlebar);
-	DefaultWindow->setFramerateLimit(30);
+	defaultWindow->setFramerateLimit(30);
 }
 
 void Core::initWindow(std::string filePath)
 {
+	_MY_DEBUG_
+
 	std::ifstream INFILE(filePath);
 	if (INFILE.is_open())
 	{
-		sf::Vector2u window_size;
-		float fps_limit;
-		std::string title;
+		if (INFILE.good())
+		{
+			std::string title, name;
+			unsigned int index;
+
+			sf::Vector2u size(800, 600);
+			unsigned int fps = 30;
 
 
-		INFILE >> window_size.x;
-		INFILE.ignore();
-		INFILE >> window_size.y;
-		INFILE >> fps_limit;
-		INFILE.ignore();
-		std::getline(INFILE, title);
+			getline(INFILE, title);
+			if (!title.empty())
+				settingHandle::title = title;
 
+			INFILE >> name >> index;
+			if (settingHandle::m_setting.contain(name))
+			{
+				settingHandle::m_setting.at(name)->current = index;
+				size = std::get<sf::Vector2u>(settingHandle::m_setting.at(name)->values.at(index));
+			}
 
-		window = new sf::RenderWindow(sf::VideoMode(window_size.x, window_size.y),
-			title, sf::Style::Close | sf::Style::Titlebar);
+			INFILE >> name >> index;
+			if (settingHandle::m_setting.contain(name))
+			{
+				settingHandle::m_setting.at(name)->current = index;
+				fps = std::get<unsigned int>(settingHandle::m_setting.at(name)->values.at(index));
+			}
 
-		delete DefaultWindow;
-		DefaultWindow = nullptr;
+			window = new sf::RenderWindow(sf::VideoMode(size.x, size.y),
+				settingHandle::title, sf::Style::Close | sf::Style::Titlebar);
+			defaultWindow->setFramerateLimit(fps);
 
+			delete defaultWindow;
+			defaultWindow = nullptr;
+
+			INFILE.close();
+		}
+		else
+		{
+			logERROR("file corrupted: " + filePath);
+			window = defaultWindow;
+		}
 	}
 	else
 	{
-		logWARNING("couldn't open file: " + filePath);
-		window = DefaultWindow;
+		logERROR("couldn't open file: " + filePath);
+		window = defaultWindow;
 	}
-	INFILE.close();
+
+	settingHandle::window = this->window;
+}
+
+void Core::initSystemHandle()
+{
+	systemHandle::window = this->window;
+	systemHandle::font = this->font;
+	systemHandle::dt = &this->dt;
 }
 
 void Core::initState()
@@ -111,12 +157,6 @@ void Core::initState()
 	State::states = &this->states;
 }
 
-void Core::initSystem()
-{
-	s_System::window = this->window;
-	s_System::font = this->font;
-	s_System::dt = &this->dt;
-}
 
 
 //////////////////////////////////////////////////////// UPDATE ////////////////////////////////////////////////////////
@@ -140,16 +180,22 @@ void Core::updateInput()
 		if (ev.type == sf::Event::Closed)
 			window->close();
 		else if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)
-			State::states->pop();
+		{
+			if (State::states->size() > 1)
+			{
+				delete State::states->top();
+				State::states->pop();
+			}
+		}
 	}
 
-	s_System::mousePosWindow = sf::Mouse::getPosition(*window);
+	systemHandle::mousePosWindow = sf::Mouse::getPosition(*window);
 
 }
 
 void Core::updateTextDebug()
 {
-	auto m = s_System::getMousePosWindow();
+	auto m = systemHandle::getMousePosWindow();
 	std::stringstream ss;
 	ss << m.x << " " << m.y;
 	text.setCharacterSize(16);
@@ -157,7 +203,6 @@ void Core::updateTextDebug()
 	text.setString(ss.str());
 	text.setPosition(m.x + 10.f, m.y + 10.f);
 }
-
 
 void Core::render()
 {

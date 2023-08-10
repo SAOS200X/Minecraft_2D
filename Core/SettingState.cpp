@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "SettingState.h"
+#include "systemHandle.h"
+#include "settingHandle.h"
 
 SettingState::SettingState()
 {
-	initTexture("resource/image/dirt.jpg");
-	initDropBoxs("resource/init/setting.init");
+	initTexture("resource/image/bg_menu.png");
+	_MY_DEBUG_
+
+	initDropBoxs();
+	initButton();
 }
 
 SettingState::~SettingState()
@@ -19,24 +24,12 @@ SettingState::~SettingState()
 void SettingState::update()
 {
 	for (auto& i : settings)
-		i.second->update(static_cast<sf::Vector2f>(s_System::getMousePosWindow()),*s_System::getDeltaTime());
+		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()));
 
 	for (auto& i : buttons)
-		i.second->update(static_cast<sf::Vector2f>(s_System::getMousePosWindow()));
+		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()));
 
 	updateButtonActive();
-}
-
-void SettingState::updateButtonActive()
-{
-	for (auto& i : buttons)
-		if (i.second->isActive())
-		{
-			if (i.first == "APPLY")
-			{
-				applySetting();
-			}
-		}
 }
 
 void SettingState::render(sf::RenderTarget* target)
@@ -49,66 +42,91 @@ void SettingState::render(sf::RenderTarget* target)
 		i.second->render(target);
 }
 
-void SettingState::initTexture(std::string filePath)
+void SettingState::initTexture(const std::string filePath)
 {
+	_MY_DEBUG_
+
 	this->texture = new sf::Texture;
 	if (!this->texture->loadFromFile(filePath))
 		logWARNING("Couldn't open file: " + filePath);
 
 	this->sprite.setTexture(*this->texture);
-	this->sprite.scale(1.5, 1.5);
+	float scale = systemHandle::getWindow()->getSize().y / static_cast<float>(this->texture->getSize().y);
+	this->sprite.setScale(scale, scale);
 }
 
 void SettingState::initButton()
 {
-	buttons.insert({ "APPLY", new Button(sf::Vector2u(150,50),sf::Vector2f(s_System().getWindow()->getSize().x * 2.f / 3.f, s_System().getWindow()->getSize().y * 4.f / 5.f),
-		sf::Color(100,100,255), s_System::getFont(),20, "APPLY") });
+	buttons.insert({ "APPLY", new Button(sf::Vector2u(150,50),sf::Vector2f(systemHandle().getWindow()->getSize().x * 2.f / 3.f, systemHandle().getWindow()->getSize().y * 4.f / 5.f),
+		sf::Color(100,100,255), systemHandle::getFont(),20, "APPLY") });
 }
 
-void SettingState::initDropBoxs(std::string filePath)
+void SettingState::initDropBoxs()
 {
-	std::ifstream INFILE(filePath);
-	std::string str;
-	if (INFILE.is_open())
-	{
-		while (INFILE.good())
+	sf::Vector2f position = static_cast<sf::Vector2f>(systemHandle::getWindow()->getSize()) / 2.f;
+
+	settings.insert({ settingHandle::m_setting.get("RESOLUTION").first(),
+		new DropDownBox(sf::Vector2f(200.f, 40.f),sf::Vector2f(position.x - 200.f, position.y - 100.f),sf::Color(100,100,150),systemHandle::getFont(),18,5) });
+	settings.at(settingHandle::m_setting.get("RESOLUTION").first())->push(settingHandle::m_setting.get("RESOLUTION").second()->values.getKeys());
+	settings.at(settingHandle::m_setting.get("RESOLUTION").first())->setCurrent(settingHandle::m_setting.get("RESOLUTION").second()->current);
+
+	
+	settings.insert({ settingHandle::m_setting.get("FPS").first(),
+		new DropDownBox(sf::Vector2f(200.f, 40.f),sf::Vector2f(position.x + 200.f, position.y - 100.f),sf::Color(100,100,150),systemHandle::getFont(),18,5) });
+
+	//auto k = settingHandle::m_setting.begin().first();
+	//auto j = (settingHandle::m_setting.begin() + 0).first();
+	settings[settingHandle::m_setting.get("FPS").first()]->push(settingHandle::m_setting.get("FPS").second()->values.getKeys());
+	settings[settingHandle::m_setting.get("FPS").first()]->setCurrent(settingHandle::m_setting.get("FPS").second()->current);
+}
+
+void SettingState::reinit()
+{
+
+}
+
+
+void SettingState::updateButtonActive()
+{
+	for (auto& i : buttons)
+		if (i.second->isActive())
 		{
-			std::getline(INFILE, str);
-
-			int off = 0;
-			int mark = str.find('(', off);
-
-			std::vector<std::string> v_token;
-			std::string tokens = str.substr(mark + 1, str.rfind('(', 0) - 1);
-
-			v_token.push_back(str.substr(off, mark));
-			while ((off = tokens.find('{', off)) != std::string::npos)
+			if (i.first == "APPLY")
 			{
-				v_token.push_back(tokens.substr(off + 1, (mark = tokens.find('}', off)) - (off + 1)));
-				off = mark;
+				applySetting();
+				return;
 			}
-
-			if (v_token.front() == "RESOLUTION")
-				addDropBox(sf::Vector2f(200.f, 40.f), sf::Vector2f(200.f, 200.f), v_token, 3);
-			else if (v_token.front() == "FPS")
-				addDropBox(sf::Vector2f(200.f, 40.f), sf::Vector2f(600.f, 200.f), v_token, 1);
 		}
-	}
-	else
-		logWARNING("couldn't open file: " + filePath);
-	INFILE.close();
-}
-
-
-void SettingState::addDropBox(sf::Vector2f size, sf::Vector2f position, std::vector<std::string>& tokens, unsigned short current)
-{
-	settings.insert({ tokens.at(0), new DropDownBox(size,position,sf::Color(100,100,150),s_System::getFont(),18,5) });
-	for (size_t i = 1; i < tokens.size(); i++)
-		settings[tokens.at(0)]->push(tokens.at(i));
-
-	settings[tokens.at(0)]->setCurrent(current);
 }
 
 void SettingState::applySetting()
 {
+	bool change = false;
+	for (auto& i : settings)
+		if (settingHandle::m_setting.at(i.first)->current != i.second->getCurrent())
+		{
+			settingHandle::m_setting.at(i.first)->current = i.second->getCurrent();
+			change = true;
+		}
+
+	if (change)
+	{
+		std::ofstream OUTFILE("resource/init/window.init");
+		if (OUTFILE.is_open())
+		{
+			OUTFILE << settingHandle::title << "\n" << "RESOLUTION " << settingHandle::m_setting.at("RESOLUTION")->current << "\n"
+				<< "FPS " << settingHandle::m_setting.at("FPS")->current;
+			OUTFILE.close();
+		}
+		else
+			logWARNING("couldn't save settings at: resource/init/window.init");
+
+		sf::Vector2u size = std::get<sf::Vector2u>(settingHandle::getCurrentSetting("RESOLUTION"));
+		settingHandle::window->create(sf::VideoMode(size.x, size.y), settingHandle::title, sf::Style::Close | sf::Style::Titlebar);
+		settingHandle::window->setFramerateLimit(std::get<unsigned int>(settingHandle::getCurrentSetting("FPS")));
+
+		State::states->pop();
+		State::states->top()->reinit();
+		delete this;
+	}
 }

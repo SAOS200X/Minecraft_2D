@@ -42,11 +42,17 @@
     <ClCompile Include="pch.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="s_System.cpp">
+    <ClCompile Include="systemHandle.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="inordered_map.cpp">
       <Filter>Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="stuff.cpp">
+      <Filter>Stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="settingHandle.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +77,7 @@
     <ClInclude Include="Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="s_System.h">
+    <ClInclude Include="systemHandle.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -79,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="inordered_map.h">
       <Filter>Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="stuff.h">
+      <Filter>Stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="settingHandle.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

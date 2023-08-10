@@ -1,14 +1,13 @@
 #include "pch.h"
 #include "DropDownBox.h"
 
-DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, unsigned short max)
+DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, unsigned int max)
 {
 	this->position = position;
 	this->color = color;
 	this->max = max;
 	current = 0;
 	show = false;
-	delay = 0;
 
 	rectangle.setSize(size);
 	rectangle.setOrigin(size / 2.f);
@@ -25,20 +24,18 @@ DropDownBox::~DropDownBox()
 {
 }
 
-void DropDownBox::update(sf::Vector2f mousePosWindow, const UINT32 dt)
+void DropDownBox::update(sf::Vector2f mousePosWindow)
 {
-	delay += dt;
 	rectangle.setPosition(position);
 	rectangle.setOutlineColor(sf::Color::Black);
 	this->mousePosWindow = mousePosWindow;
 
 	if (rectangle.getGlobalBounds().contains(mousePosWindow))
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && (delay > 100))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
 			rectangle.setFillColor(color - sf::Color(80, 80, 0, 20));
 			show = !show;
-			delay = 0;
 		}
 		else
 			rectangle.setFillColor(color - sf::Color(50, 50, 0, 0));
@@ -50,9 +47,9 @@ void DropDownBox::update(sf::Vector2f mousePosWindow, const UINT32 dt)
 void DropDownBox::render(sf::RenderTarget* target)
 {
 	target->draw(rectangle);
-	if ((vector.size() > 0) && (current < vector.size()))
+	if ((list.size() > 0) && (current < list.size()))
 	{
-		text.setString(vector.at(current));
+		text.setString(list.at(current));
 
 		text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
 		text.setPosition(rectangle.getPosition());
@@ -60,18 +57,17 @@ void DropDownBox::render(sf::RenderTarget* target)
 	}
 
 	if (show)
-		for (UINT32 i = 0; i < (max >= vector.size() ? vector.size() : max); i++)
+		for (UINT32 i = 0; i < (max >= list.size() ? list.size() : max); i++)
 		{
 			rectangle.setPosition(position.x, position.y + (rectangle.getSize().y + 4.f) * (i + 1));
 
 			if (rectangle.getGlobalBounds().contains(mousePosWindow))
 			{
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && (delay > 100))
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 				{
 					rectangle.setFillColor(color - sf::Color(80, 80, 0, 20));
 					show = !show;
 					current = i;
-					delay = 0;
 				}
 				else
 					rectangle.setFillColor(color - sf::Color(50, 50, 0, 0));
@@ -89,9 +85,9 @@ void DropDownBox::render(sf::RenderTarget* target)
 
 			target->draw(rectangle);
 
-			if ((vector.size() > 0) && (i <= vector.size()))
+			if ((list.size() > 0) && (i <= list.size()))
 			{
-				text.setString(vector.at(i));
+				text.setString(list.at(i));
 				text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
 				text.setPosition(rectangle.getPosition());
 				target->draw(text);
@@ -99,12 +95,17 @@ void DropDownBox::render(sf::RenderTarget* target)
 		}
 }
 
-void DropDownBox::push(std::string str)
+void DropDownBox::push(const std::string& str)
 {
-	vector.push_back(str);
+	list.push_back(str);
 }
 
-void DropDownBox::setCurrent(unsigned short current)
+void DropDownBox::push(const std::vector<std::string> str)
+{
+	list = str;
+}
+
+void DropDownBox::setCurrent(unsigned int current)
 {
 	if (current <= max)
 		this->current = current;
@@ -112,7 +113,7 @@ void DropDownBox::setCurrent(unsigned short current)
 		logERROR("value not valid!!!");
 }
 
-void DropDownBox::init()
+const unsigned int& DropDownBox::getCurrent()
 {
-	text.setFont(*s_System::getFont());
+	return current;
 }

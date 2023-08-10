@@ -23,6 +23,11 @@ struct m_Iterator {
 		return *this;
 	}
 
+	m_Iterator& operator+(const unsigned int right) {
+		ptr += right;
+		return *this;
+	}
+
 	m_Iterator& operator*() {
 		return *this;
 	}
@@ -66,40 +71,51 @@ public:
 		return it.m_end();
 	}
 
-	V& front() {
-		return it.m_map[it.order.front()];
+	m_Iterator<K, V>& back() {
+		if (it.order.size() == 0)
+			it.ptr = it.order.begin();
+		else
+			it.ptr = (it.order.end() - 1);
+		return it;
 	}
 
-	V& back() {
-		return it.m_map[it.order.back()];
+	m_Iterator<K, V>& get(const unsigned int index) {
+		return (it.m_begin() + index);
+	}
+
+	m_Iterator<K,V>& get(const K& key) {
+		it.ptr = std::find(it.order.begin(), it.order.end(), key);
+		return it;
 	}
 
 	V& at(const K& key) {
-		if (it.m_map.count(key))
-			return it.m_map.at(key);
+		return it.m_map.at(key);
 	}
 
-	V& at(const K&& key) {
-		if (it.m_map.count(key))
-			return it.m_map.at(key);
+	V& at(K&& key) {
+		return it.m_map.at(key);
 	}
 
 	V& at(const unsigned int index) {
-		if (index < it.order.size())
-			return it.m_map.at(it.order.at(index));
+		return it.m_map.at(it.order.at(index));
 	}
 
 	V& operator[](const unsigned int index) {
 		return it.m_map[it.order[index]];
 	}
 
-	V& operator[](const K&& key) {
+	V& operator[](K&& key) {
 		return it.m_map[key];
 	}
 
 	V& operator[](const K& key) {
 		return it.m_map[key];
 	}
+
+	const std::vector<K>& getKeys() {
+		return it.order;
+	}
+
 
 	const unsigned int size() {
 		return it.order.size();
@@ -123,7 +139,7 @@ public:
 		return it.m_map.count(key);
 	}
 
-	const bool contain(K& key) {
+	const bool contain(const K& key) {
 		return it.m_map.count(key);
 	}
 
@@ -152,7 +168,7 @@ public:
 		}
 	}
 
-	void erase(const K&& key) {
+	void erase(K&& key) {
 		if (std::find(it.order.begin(), it.order.end(), key) != it.order.end())
 		{
 			it.m_map.erase(key);

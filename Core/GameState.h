@@ -9,5 +9,9 @@ public:
     
     void update() override;
     void render(sf::RenderTarget* target) override;
+
+private:
+    void init();
+    void reinit() override;
 };
 

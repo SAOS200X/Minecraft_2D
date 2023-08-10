@@ -9,14 +9,15 @@ public:
     ~MainMenuState();
 
     void update() override;
-    void updateButtonActive();
 
     void render(sf::RenderTarget* target) override;
 
 private:
-    void initTexture(std::string filePath);
+    void initTexture(const std::string filePath);
     void initButton();
+    void reinit() override;
 
+    void updateButtonActive();
 private:
 
     std::map<std::string, Button*> buttons;

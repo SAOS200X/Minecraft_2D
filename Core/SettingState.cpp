@@ -5,7 +5,7 @@
 
 SettingState::SettingState()
 {
-	initTexture("resource/image/bg_menu.png");
+	initTexture(m_macro::bg_1);
 	_MY_DEBUG_
 
 	initDropBoxs();
@@ -57,27 +57,27 @@ void SettingState::initTexture(const std::string filePath)
 
 void SettingState::initButton()
 {
-	buttons.insert({ "APPLY", new Button(sf::Vector2u(150,50),sf::Vector2f(systemHandle().getWindow()->getSize().x * 2.f / 3.f, systemHandle().getWindow()->getSize().y * 4.f / 5.f),
-		sf::Color(100,100,255), systemHandle::getFont(),20, "APPLY") });
+	buttons.insert({ m_macro::name_3, new Button(sf::Vector2u(150,50),sf::Vector2f(systemHandle().getWindow()->getSize().x * 2.f / 3.f, systemHandle().getWindow()->getSize().y * 4.f / 5.f),
+		sf::Color(100,100,255), systemHandle::getFont(),20, m_macro::name_3) });
 }
 
 void SettingState::initDropBoxs()
 {
 	sf::Vector2f position = static_cast<sf::Vector2f>(systemHandle::getWindow()->getSize()) / 2.f;
 
-	settings.insert({ settingHandle::m_setting.get("RESOLUTION").first(),
+	settings.insert({ settingHandle::m_setting.get(m_macro::name_1).first(),
 		new DropDownBox(sf::Vector2f(200.f, 40.f),sf::Vector2f(position.x - 200.f, position.y - 100.f),sf::Color(100,100,150),systemHandle::getFont(),18,5) });
-	settings.at(settingHandle::m_setting.get("RESOLUTION").first())->push(settingHandle::m_setting.get("RESOLUTION").second()->values.getKeys());
-	settings.at(settingHandle::m_setting.get("RESOLUTION").first())->setCurrent(settingHandle::m_setting.get("RESOLUTION").second()->current);
+	settings.at(settingHandle::m_setting.get(m_macro::name_1).first())->push(settingHandle::m_setting.get(m_macro::name_1).second()->values.getKeys());
+	settings.at(settingHandle::m_setting.get(m_macro::name_1).first())->setCurrent(settingHandle::m_setting.get(m_macro::name_1).second()->current);
 
 	
-	settings.insert({ settingHandle::m_setting.get("FPS").first(),
+	settings.insert({ settingHandle::m_setting.get(m_macro::name_2).first(),
 		new DropDownBox(sf::Vector2f(200.f, 40.f),sf::Vector2f(position.x + 200.f, position.y - 100.f),sf::Color(100,100,150),systemHandle::getFont(),18,5) });
 
 	//auto k = settingHandle::m_setting.begin().first();
 	//auto j = (settingHandle::m_setting.begin() + 0).first();
-	settings[settingHandle::m_setting.get("FPS").first()]->push(settingHandle::m_setting.get("FPS").second()->values.getKeys());
-	settings[settingHandle::m_setting.get("FPS").first()]->setCurrent(settingHandle::m_setting.get("FPS").second()->current);
+	settings[settingHandle::m_setting.get(m_macro::name_2).first()]->push(settingHandle::m_setting.get(m_macro::name_2).second()->values.getKeys());
+	settings[settingHandle::m_setting.get(m_macro::name_2).first()]->setCurrent(settingHandle::m_setting.get(m_macro::name_2).second()->current);
 }
 
 void SettingState::reinit()
@@ -91,7 +91,7 @@ void SettingState::updateButtonActive()
 	for (auto& i : buttons)
 		if (i.second->isActive())
 		{
-			if (i.first == "APPLY")
+			if (i.first == m_macro::name_3)
 			{
 				applySetting();
 				return;
@@ -111,19 +111,19 @@ void SettingState::applySetting()
 
 	if (change)
 	{
-		std::ofstream OUTFILE("resource/init/window.init");
+		std::ofstream OUTFILE(m_macro::init_0);
 		if (OUTFILE.is_open())
 		{
-			OUTFILE << settingHandle::title << "\n" << "RESOLUTION " << settingHandle::m_setting.at("RESOLUTION")->current << "\n"
-				<< "FPS " << settingHandle::m_setting.at("FPS")->current;
+			OUTFILE << settingHandle::title << "\n" << m_macro::name_1 << " " << settingHandle::m_setting.at(m_macro::name_1)->current << "\n"
+				<< m_macro::name_2 << " " << settingHandle::m_setting.at(m_macro::name_2)->current;
 			OUTFILE.close();
 		}
 		else
-			logWARNING("couldn't save settings at: resource/init/window.init");
+			logWARNING("couldn't save settings at: " + std::string(m_macro::init_0));
 
-		sf::Vector2u size = std::get<sf::Vector2u>(settingHandle::getCurrentSetting("RESOLUTION"));
+		sf::Vector2u size = std::get<sf::Vector2u>(settingHandle::getCurrentSetting(m_macro::name_1));
 		settingHandle::window->create(sf::VideoMode(size.x, size.y), settingHandle::title, sf::Style::Close | sf::Style::Titlebar);
-		settingHandle::window->setFramerateLimit(std::get<unsigned int>(settingHandle::getCurrentSetting("FPS")));
+		settingHandle::window->setFramerateLimit(std::get<unsigned int>(settingHandle::getCurrentSetting(m_macro::name_2)));
 
 		State::states->pop();
 		State::states->top()->reinit();

@@ -1,10 +1,10 @@
 #pragma once
 #include "inordered_map.h"
 
-
 class settingHandle
 {
 public:
+
 	friend class Core;
 	friend class SettingState;
 

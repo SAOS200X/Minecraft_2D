@@ -12,3 +12,12 @@ dllprocess void start()
 	Core c;
 	c.run();	
 }
+
+
+
+// Use Define value and filename incode
+// Add more config and Apperant
+// work with Game State
+// create player class
+// create tiles map
+// some game mechanism

@@ -130,13 +130,13 @@ void Core::initWindow(std::string filePath)
 		}
 		else
 		{
-			logERROR("file corrupted: " + filePath);
+			logWARNING("file corrupted: " + filePath);
 			window = defaultWindow;
 		}
 	}
 	else
 	{
-		logERROR("couldn't open file: " + filePath);
+		logWARNING("couldn't open file: " + filePath);
 		window = defaultWindow;
 	}
 

@@ -110,7 +110,7 @@ void DropDownBox::setCurrent(unsigned int current)
 	if (current <= max)
 		this->current = current;
 	else
-		logERROR("value not valid!!!");
+		logWARNING("value not valid!!!");
 }
 
 const unsigned int& DropDownBox::getCurrent()

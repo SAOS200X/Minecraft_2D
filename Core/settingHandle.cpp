@@ -50,7 +50,10 @@ void settingHandle::loadSetting(const std::string filePath)
 		INFILE.close();
 	}
 	else
+	{
 		logERROR("couldn't open file: " + filePath);
+		settingHandle::window->close();
+	}
 }
 
 std::variant<unsigned int, sf::Vector2u>& settingHandle::getCurrentSetting(const std::string key)

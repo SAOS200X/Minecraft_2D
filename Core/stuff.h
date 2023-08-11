@@ -18,7 +18,7 @@ namespace m_macro{
 	const string button_2 = "resource/image/quit.png";
 	const string button_3 = "resource/image/singleplayer.png";
 	const string button_4 = "resource/image/multiplayer.png";
-	const string font_0 = "resource/material/font.tff";
+	const string font_0 = "resource/material/font.ttf";
 }
 
 

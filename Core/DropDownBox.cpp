@@ -94,7 +94,7 @@ void DropDownBox::render(sf::RenderTarget* target)
 void DropDownBox::push(const std::string& str)
 {
 	sf::FloatRect rect = boxs.back().rect;
-	rect.top += boxs.back().rect.getSize().y + rectangle.getOutlineThickness();
+	rect.top += boxs.back().rect.getSize().y + rectangle.getOutlineThickness() * 2.f;
 	boxs.push_back(properties(str, rect, (rectangle.getTexture() ? sf::Color::White : boxs.back().fillColor)));
 }
 

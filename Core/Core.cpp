@@ -164,6 +164,7 @@ void Core::initState()
 void Core::update()
 {
 	updateInput();
+	updateKeyPressed();
 
 	if (!states.empty())
 		states.top()->update();
@@ -182,6 +183,15 @@ void Core::updateKeyPressed()
 				systemHandle::KeyState[sf::Keyboard::Key(i)] = systemHandle::state::pressed;
 			else if (systemHandle::KeyState[sf::Keyboard::Key(i)] == systemHandle::state::pressed)
 				systemHandle::KeyState[sf::Keyboard::Key(i)] = systemHandle::state::hold;
+		}
+
+	for (unsigned int i = 0; i < 2; i++)
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button(i)))
+		{
+			if (systemHandle::MouseState[sf::Mouse::Button(i)] == systemHandle::state::release)
+				systemHandle::MouseState[sf::Mouse::Button(i)] = systemHandle::state::pressed;
+			else if (systemHandle::MouseState[sf::Mouse::Button(i)] == systemHandle::state::pressed)
+				systemHandle::MouseState[sf::Mouse::Button(i)] = systemHandle::state::hold;
 		}
 }
 
@@ -204,7 +214,9 @@ void Core::updateInput()
 		}
 		else if (ev.type == sf::Event::KeyReleased)
 			systemHandle::KeyState[ev.key.code] = systemHandle::state::release;
-
+		
+		if (ev.type == sf::Event::MouseButtonReleased)
+			systemHandle::MouseState[ev.mouseButton.button] = systemHandle::state::release;
 	}
 
 }

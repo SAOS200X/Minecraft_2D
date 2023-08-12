@@ -24,7 +24,8 @@ private:
 		sf::Color fillColor;
 		sf::Color outlineColor = sf::Color::Black;
 	};
-	//sf::Vector2f position;
+	sf::Color defaultColor;
+
 	std::vector< properties> boxs;
 	sf::Text text;
 

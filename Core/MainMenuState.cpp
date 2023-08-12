@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MainMenuState.h"
-#include "GameState.h"
+#include "SinglePlayerState.h"
 #include "SettingState.h"
 #include "systemHandle.h"
 
@@ -12,7 +12,6 @@ MainMenuState::MainMenuState()
 
 MainMenuState::~MainMenuState()
 {
-	delete this->texture;
 	for (auto& i : buttons)
 		delete i.second;
 }
@@ -20,7 +19,7 @@ MainMenuState::~MainMenuState()
 void MainMenuState::update()
 {
 	for (auto& i : buttons)
-		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()));
+		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
 
 	updateButtonActive();
 }
@@ -74,7 +73,7 @@ void MainMenuState::updateButtonActive()
 		if (i.second->isActive())
 		{
 			if (i.first == "START")
-				State::states->push(new GameState());
+				State::states->push(new SinglePlayerState());
 			else if (i.first == "OPTION")
 				State::states->push(new SettingState());
 			else if (i.first == "QUIT") {

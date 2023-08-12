@@ -79,13 +79,13 @@ Button::~Button()
 		delete texture;
 }
 
-void Button::update(sf::Vector2f mousePosWindow)
+void Button::update(sf::Vector2f mousePosWindow, bool isKeyPressed)
 {
 	active = false;
 
 	if (sprite.getGlobalBounds().contains(mousePosWindow))
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		if (isKeyPressed)
 		{
 			sprite.setFillColor(defaultColor - sf::Color(100, 100, 0, 20));
 			active = true;

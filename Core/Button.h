@@ -9,7 +9,7 @@ public:
 
 	~Button();
 
-	void update(sf::Vector2f mousePosWindow);
+	void update(sf::Vector2f mousePosWindow, bool isKeyPressed);
 	void render(sf::RenderTarget* target);
 
 	void setPosition(sf::Vector2f position);

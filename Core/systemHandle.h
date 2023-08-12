@@ -8,6 +8,7 @@ public:
 	static const sf::Vector2i& getMousePosWindow();
 	static const sf::Font* const getFont();
 	static const INT32* const getDeltaTime();
+	static const bool isButtonPressed(const sf::Mouse::Button button);
 
 	friend class Core;
 private:

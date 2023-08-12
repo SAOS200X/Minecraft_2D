@@ -1,119 +1,107 @@
 #include "pch.h"
 #include "DropDownBox.h"
 
-DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, unsigned int max)
+DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
 {
-	this->position = position;
-	this->color = color;
-	this->max = max;
-	current = 0;
 	show = false;
+	currentRow = 0;
+	this->maxRow = maxRow;
 
 	rectangle.setSize(size);
 	rectangle.setOrigin(size / 2.f);
-	rectangle.setPosition(position);
 	rectangle.setOutlineThickness(2.f);
 
+	boxs.push_back(properties("NONE", sf::FloatRect(position, size), sf::Color::White));
+
 	if (font)
+	{
 		text.setFont(*font);
-	text.setCharacterSize(characterSize);
-	text.setOutlineThickness(2.f);
+		text.setCharacterSize(characterSize);
+		text.setOutlineThickness(2.f);
+	}
+}
+
+DropDownBox::DropDownBox(sf::Texture* texture, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
+{
+	show = false;
+	currentRow = 0;
+	this->maxRow = maxRow;
+
+	rectangle.setSize(static_cast<sf::Vector2f>(texture->getSize()));
+	rectangle.setTexture(texture);
+	rectangle.setOrigin(rectangle.getSize() / 2.f);
+	rectangle.setOutlineThickness(2.f);
+
+	boxs.push_back(properties("NONE", sf::FloatRect(position, rectangle.getSize()), sf::Color::White));
+
+	if (font)
+	{
+		text.setFont(*font);
+		text.setCharacterSize(characterSize);
+		text.setOutlineThickness(2.f);
+	}
 }
 
 DropDownBox::~DropDownBox()
 {
 }
 
-void DropDownBox::update(sf::Vector2f mousePosWindow)
+void DropDownBox::update(sf::Vector2f mousePosWindow, bool isButtonPressed)
 {
-	rectangle.setPosition(position);
-	rectangle.setOutlineColor(sf::Color::Black);
-	this->mousePosWindow = mousePosWindow;
-
-	if (rectangle.getGlobalBounds().contains(mousePosWindow))
-	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	for (auto& i : boxs)
+		if (i.rect.contains(mousePosWindow))
 		{
-			rectangle.setFillColor(color - sf::Color(80, 80, 0, 20));
-			show = !show;
+			i.outlineColor = sf::Color::Red;
+			if (isButtonPressed)
+			{
+				i.fillColor = boxs.front().fillColor - sf::Color(80, 80, 0, 20);
+				show = !show;
+			}
+			else
+				i.fillColor = boxs.front().fillColor - sf::Color(50, 50, 0, 0);
 		}
 		else
-			rectangle.setFillColor(color - sf::Color(50, 50, 0, 0));
-	}
-	else
-		rectangle.setFillColor(color);
+		{
+			i.fillColor = boxs.front().fillColor;
+			i.outlineColor = sf::Color::Black;
+		}
 }
 
 void DropDownBox::render(sf::RenderTarget* target)
-{
-	target->draw(rectangle);
-	if ((list.size() > 0) && (current < list.size()))
+{	
+	for (UINT32 i = 0; i < (maxRow >= boxs.size() ? boxs.size() : maxRow); i++)
 	{
-		text.setString(list.at(current));
+		rectangle.setPosition(boxs.at(i).rect.getPosition());
+		rectangle.setFillColor(boxs.at(i).fillColor);
+		rectangle.setOutlineColor(boxs.at(i).outlineColor);
+		target->draw(rectangle);
 
+		text.setString(boxs.at(i).name);
 		text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
 		text.setPosition(rectangle.getPosition());
 		target->draw(text);
+
+		if (!i && !show)
+			break;
 	}
-
-	if (show)
-		for (UINT32 i = 0; i < (max >= list.size() ? list.size() : max); i++)
-		{
-			rectangle.setPosition(position.x, position.y + (rectangle.getSize().y + 4.f) * (i + 1));
-
-			if (rectangle.getGlobalBounds().contains(mousePosWindow))
-			{
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-				{
-					rectangle.setFillColor(color - sf::Color(80, 80, 0, 20));
-					show = !show;
-					current = i;
-				}
-				else
-					rectangle.setFillColor(color - sf::Color(50, 50, 0, 0));
-			}
-			else
-				rectangle.setFillColor(color + sf::Color(50, 50, 50, 0));
-			if (i == current)
-			{
-				rectangle.setFillColor(color - sf::Color(20, 20, 0, 0));
-				rectangle.setOutlineColor(sf::Color::Red);
-			}
-			else 
-				rectangle.setOutlineColor(sf::Color::Black);
-
-
-			target->draw(rectangle);
-
-			if ((list.size() > 0) && (i <= list.size()))
-			{
-				text.setString(list.at(i));
-				text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
-				text.setPosition(rectangle.getPosition());
-				target->draw(text);
-			}
-		}
 }
 
 void DropDownBox::push(const std::string& str)
 {
-	list.push_back(str);
-}
-
-void DropDownBox::push(const std::vector<std::string> str)
-{
-	list = str;
+	sf::FloatRect rect = boxs.back().rect;
+	rect.top += boxs.back().rect.getSize().y + rectangle.getOutlineThickness();
+	boxs.push_back(properties(str, rect, (rectangle.getTexture() ? sf::Color::White : boxs.back().fillColor)));
 }
 
 void DropDownBox::setCurrent(unsigned int current)
 {
-	if (current <= max)
-		this->current = current;
+	if (current < boxs.size())
+		this->currentRow = current;
 	else
 		logWARNING("value not valid!!!");
 }
 
 const unsigned int& DropDownBox::getCurrent()
 {
-	return current;
+	return currentRow;
 }

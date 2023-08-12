@@ -54,6 +54,9 @@
     <ClCompile Include="settingHandle.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="SinglePlayerState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuState.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="settingHandle.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SinglePlayerState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

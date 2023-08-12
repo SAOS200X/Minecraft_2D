@@ -6,7 +6,7 @@
 
 MainMenuState::MainMenuState()
 {
-	initTexture(m_macro::bg_0);
+	initTexture(m_macro::bg_main);
 	initButton();
 }
 
@@ -49,9 +49,9 @@ void MainMenuState::initButton()
 {
 	_MY_DEBUG_
 
-	buttons.insert({"START", new Button(m_macro::button_3, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, 300.f))});
-	buttons.insert({ "OPTION", new Button(m_macro::button_1, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 128.f, 380.f)) });
-	buttons.insert({ "QUIT", new Button(m_macro::button_2, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 128.f, 380.f)) });
+	buttons.insert({"START", new Button(m_macro::button_singleplayer, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, 300.f))});
+	buttons.insert({ "OPTION", new Button(m_macro::button_option, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 128.f, 380.f)) });
+	buttons.insert({ "QUIT", new Button(m_macro::button_quit, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 128.f, 380.f)) });
 }
 
 void MainMenuState::reinit()

@@ -44,7 +44,7 @@ void Core::init()
 
 	initSettingHandle();
 	initDefaultWindow();
-	initWindow(m_macro::init_1);
+	initWindow(m_macro::path_window);
 
 	initSystemHandle();
 	initState();
@@ -71,10 +71,10 @@ void Core::initFont(std::string filePath)
 
 void Core::initSettingHandle()
 {
-	settingHandle::loadSetting(m_macro::init_0);
-	settingHandle::title = m_macro::name_0;
-	settingHandle::m_setting.at(m_macro::name_1)->current = 3;
-	settingHandle::m_setting.at(m_macro::name_2)->current = 0;
+	settingHandle::loadSetting(m_macro::path_setting);
+	settingHandle::title = "Minecraft 2D";
+	settingHandle::m_setting.at("RESOLUTION")->current = 3;
+	settingHandle::m_setting.at("FPS")->current = 0;
 
 }
 

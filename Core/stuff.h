@@ -4,20 +4,17 @@
 
 typedef const char* string;
 
-namespace m_macro{
-	const string name_0 = "Minecraft 2D";
-	const string name_1 = "RESOLUTION";
-	const string name_2 = "FPS";
-	const string name_3 = "APPLY";
-	const string init_0 = "resource/init/setting.init";
-	const string init_1 = "resource/init/window.init";
-	const string bg_0 = "resource/image/bg_main.png";
-	const string bg_1 = "resource/image/bg_setting.png";
-	const string button_0 = "resource/image/blank.png";
-	const string button_1 = "resource/image/option.png";
-	const string button_2 = "resource/image/quit.png";
-	const string button_3 = "resource/image/singleplayer.png";
-	const string button_4 = "resource/image/multiplayer.png";
+namespace m_macro {
+	const string path_setting = "resource/init/setting.init";
+	const string path_window = "resource/init/window.init";
+	const string bg_main = "resource/image/bg_main.png";
+	const string bg_setting = "resource/image/bg_setting.png";
+	const string bg_singleplayer = "resource/image/bg_singleplayer.png";
+	const string button_blank = "resource/image/blank.png";
+	const string button_option = "resource/image/option.png";
+	const string button_quit = "resource/image/quit.png";
+	const string button_singleplayer = "resource/image/singleplayer.png";
+	const string button_multiplayer = "resource/image/multiplayer.png";
 	const string font_0 = "resource/material/font.ttf";
 }
 

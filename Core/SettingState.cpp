@@ -5,7 +5,7 @@
 
 SettingState::SettingState()
 {
-	initTexture(m_macro::bg_1);
+	initTexture(m_macro::bg_setting);
 	_MY_DEBUG_
 
 	initDropBoxs();
@@ -112,7 +112,7 @@ void SettingState::applySetting()
 
 	if (change)
 	{
-		std::ofstream OUTFILE(m_macro::init_1);
+		std::ofstream OUTFILE(m_macro::path_window);
 		if (OUTFILE.is_open())
 		{
 			OUTFILE << settingHandle::title << "\n" << "RESOLUTION" << " " << settingHandle::m_setting.at("RESOLUTION")->current << "\n"
@@ -120,7 +120,7 @@ void SettingState::applySetting()
 			OUTFILE.close();
 		}
 		else
-			logWARNING("couldn't save settings at: " + std::string(m_macro::init_1));
+			logWARNING("couldn't save settings at: " + std::string(m_macro::path_window));
 
 		sf::Vector2u size = std::get<sf::Vector2u>(settingHandle::getCurrentSetting("RESOLUTION"));
 		settingHandle::window->create(sf::VideoMode(size.x, size.y), settingHandle::title, sf::Style::Close | sf::Style::Titlebar);

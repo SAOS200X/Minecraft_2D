@@ -4,7 +4,7 @@
 
 SinglePlayerState::SinglePlayerState()
 {
-	initTexture(m_macro::bg_2);
+	initTexture(m_macro::bg_singleplayer);
 	initButton();
 }
 
@@ -43,8 +43,8 @@ void SinglePlayerState::initTexture(const std::string filePath)
 void SinglePlayerState::initButton()
 {
 	sf::Vector2f pos = sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f);
-	buttons.insert({ "NEWGAME",new Button(m_macro::button_0, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "New Game") });
-	buttons.insert({ "RESUME",new Button(m_macro::button_0, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "Resume") });
+	buttons.insert({ "NEWGAME",new Button(m_macro::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "New Game") });
+	buttons.insert({ "RESUME",new Button(m_macro::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "Resume") });
 }
 
 void SinglePlayerState::updateButtonActive()

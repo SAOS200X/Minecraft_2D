@@ -15,7 +15,7 @@ dllprocess void start()
 
 
 
-// Use Define value and filename incode
+// Use Define value and filename incode   DONE
 // Add more config and Apperant
 // work with Game State
 // create player class

@@ -111,6 +111,7 @@
     </ClCompile>
     <ClCompile Include="settingHandle.cpp" />
     <ClCompile Include="SettingState.cpp" />
+    <ClCompile Include="SinglePlayerState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="stuff.cpp" />
     <ClCompile Include="systemHandle.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="settingHandle.h" />
     <ClInclude Include="SettingState.h" />
+    <ClInclude Include="SinglePlayerState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="stuff.h" />
     <ClInclude Include="systemHandle.h" />

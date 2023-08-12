@@ -11,9 +11,9 @@ public:
 
 	friend class Core;
 private:
-	enum state {release, pressed, hold};
-	static std::map<unsigned short, systemHandle::state> KeyState;
-	static std::map<unsigned short, systemHandle::state> MouseState;
+	enum class state {release, pressed, hold};
+	static std::map<sf::Keyboard::Key, systemHandle::state> KeyState;
+	static std::map<sf::Mouse::Button, systemHandle::state> MouseState;
 	
 	static const sf::RenderWindow* window;
 	static sf::Font* font;

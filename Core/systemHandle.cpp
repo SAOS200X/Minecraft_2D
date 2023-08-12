@@ -21,8 +21,8 @@ const INT32* const systemHandle::getDeltaTime()
 	return dt;
 }
 
-std::map<unsigned short, systemHandle::state> systemHandle::KeyState;
-std::map<unsigned short, systemHandle::state> systemHandle::MouseState;
+std::map<sf::Keyboard::Key, systemHandle::state> systemHandle::KeyState;
+std::map<sf::Mouse::Button, systemHandle::state> systemHandle::MouseState;
 
 const sf::RenderWindow* systemHandle::window = nullptr;
 sf::Font* systemHandle::font = nullptr;

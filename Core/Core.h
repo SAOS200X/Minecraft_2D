@@ -27,6 +27,7 @@ private:
 
 // -----------------------UPDATE----------------------
 	void update();
+	void updateKeyPressed();
 	void updateInput();
 	void updateTextDebug();
 

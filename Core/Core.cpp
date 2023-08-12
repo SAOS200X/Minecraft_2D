@@ -171,9 +171,24 @@ void Core::update()
 	updateTextDebug();
 }
 
+void Core::updateKeyPressed()
+{
+	_MY_DEBUG_
+
+	for (unsigned int i = 0; i < 35; i++)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i)))
+		{
+			if (systemHandle::KeyState[sf::Keyboard::Key(i)] == systemHandle::state::release)
+				systemHandle::KeyState[sf::Keyboard::Key(i)] = systemHandle::state::pressed;
+			else if (systemHandle::KeyState[sf::Keyboard::Key(i)] == systemHandle::state::pressed)
+				systemHandle::KeyState[sf::Keyboard::Key(i)] = systemHandle::state::hold;
+		}
+}
+
 void Core::updateInput()
 {
 	dt = clock.restart().asMilliseconds();
+	systemHandle::mousePosWindow = sf::Mouse::getPosition(*window);
 
 	while (window->pollEvent(ev))
 	{
@@ -187,9 +202,10 @@ void Core::updateInput()
 				State::states->pop();
 			}
 		}
-	}
+		else if (ev.type == sf::Event::KeyReleased)
+			systemHandle::KeyState[ev.key.code] = systemHandle::state::release;
 
-	systemHandle::mousePosWindow = sf::Mouse::getPosition(*window);
+	}
 
 }
 

@@ -14,7 +14,9 @@ public:
 
 	void setPosition(sf::Vector2f position);
 
-	inline const bool isActive() const { return active; };
+	void setActive(const bool state);
+
+	inline const bool isButtonPressed() const { return pressed; }
 
 private:
 	sf::Texture* texture = nullptr;
@@ -25,6 +27,8 @@ private:
 	sf::Color defaultColor;
 
 	sf::Text text;
+
+	bool pressed;
 
 	bool active;
 };

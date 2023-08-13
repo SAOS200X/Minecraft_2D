@@ -4,8 +4,9 @@
 
 SinglePlayerState::SinglePlayerState()
 {
-	initTexture(m_macro::bg_singleplayer);
+	this->initBackground(m_path::bg_singleplayer);
 	initButton();
+	loadGlobalSave(m_path::save_global);
 }
 
 SinglePlayerState::~SinglePlayerState()
@@ -27,24 +28,34 @@ void SinglePlayerState::render(sf::RenderTarget* target)
 		i.second->render(target);
 }
 
-void SinglePlayerState::initTexture(const std::string filePath)
-{
-	_MY_DEBUG_
-
-		this->texture = new sf::Texture;
-	if (!this->texture->loadFromFile(filePath))
-		logWARNING("Couldn't open file: " + filePath);
-	this->sprite.setTexture(*this->texture);
-
-	float scale = systemHandle::getWindow()->getSize().y / static_cast<float>(this->texture->getSize().y);
-	this->sprite.setScale(scale, scale);
-}
-
 void SinglePlayerState::initButton()
 {
-	sf::Vector2f pos = sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f);
-	buttons.insert({ "NEWGAME",new Button(m_macro::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "New Game") });
-	buttons.insert({ "RESUME",new Button(m_macro::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 2.f / 3.f), systemHandle::getFont(), 24, "Resume") });
+	buttons.insert({ "NEWGAME",new Button(m_path::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "New Game") });
+	buttons.insert({ "RESUME",new Button(m_path::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "Resume") });
+}
+
+void SinglePlayerState::loadGlobalSave(const std::string filePath)
+{
+	unsigned int num = 0;
+
+	std::ifstream INFILE(filePath);
+	if (INFILE.is_open())
+	{
+		INFILE >> num;
+		if (num)
+		{
+
+		}
+		INFILE.close();
+	}
+	else
+		logERROR("couldn't not load global save: " + filePath);
+
+
+	if (num > 0)
+		saves.push_back(save());
+	else
+		buttons.at("RESUME")->setActive(false);
 }
 
 void SinglePlayerState::updateButtonActive()
@@ -56,6 +67,3 @@ void SinglePlayerState::updateButtonActive()
 		}
 }
 
-void SinglePlayerState::reinit()
-{
-}

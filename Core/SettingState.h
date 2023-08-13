@@ -12,10 +12,9 @@ public:
     void render(sf::RenderTarget* target) override;
 
 private:
-    void initTexture(const std::string filePath);
     void initButton();
     void initDropBoxs();
-    void reinit() override;
+
 
     void updateButtonActive();
     void applySetting();

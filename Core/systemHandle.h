@@ -3,7 +3,9 @@
 class systemHandle
 {
 public:
+	static void loadTexture(const std::string filePath);
 
+	static const sf::Texture* getTexture(const std::string filePath);
 	static const sf::RenderWindow* const getWindow();
 	static const sf::Vector2i& getMousePosWindow();
 	static const sf::Font* const getFont();
@@ -13,6 +15,7 @@ public:
 	friend class Core;
 private:
 	enum class state {release, pressed, hold};
+	static std::map<std::string, sf::Texture*> textures;
 	static std::map<sf::Keyboard::Key, systemHandle::state> KeyState;
 	static std::map<sf::Mouse::Button, systemHandle::state> MouseState;
 	

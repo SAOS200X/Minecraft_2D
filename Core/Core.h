@@ -21,8 +21,9 @@ private:
 	void initSettingHandle();
 	void initDefaultWindow();
 	void initWindow(std::string filePath);
-	void initState();
+	void initTextures();
 	void initSystemHandle();
+	void initState();
 
 
 // -----------------------UPDATE----------------------

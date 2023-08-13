@@ -24,6 +24,3 @@ void GameState::init()
 {
 }
 
-void GameState::reinit()
-{
-}

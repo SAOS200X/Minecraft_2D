@@ -14,11 +14,11 @@ public:
 	friend class SettingState;
 
 protected:
+	void initBackground(const std::string filePath);
+
 	static std::stack<State*>* states;
 	sf::Texture* texture;
 	sf::Sprite sprite;
 
-
-	virtual void reinit() = 0;
 };
 

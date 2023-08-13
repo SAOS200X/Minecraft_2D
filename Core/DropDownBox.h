@@ -3,7 +3,7 @@ class DropDownBox
 {
 public:
 	DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color defaultColor, const sf::Font* font = nullptr, unsigned int characterSize = 16, unsigned int maxRow = 4);
-	DropDownBox(sf::Texture* texture, sf::Vector2f position, const sf::Font* font = nullptr, unsigned int characterSize = 16, unsigned int maxRow = 4);
+	DropDownBox(const sf::Texture* texture, sf::Vector2f position, const sf::Font* font = nullptr, unsigned int characterSize = 16, unsigned int maxRow = 4);
 	~DropDownBox();
 
 	void update(sf::Vector2f mousePosWindow, bool isButtonPressed);

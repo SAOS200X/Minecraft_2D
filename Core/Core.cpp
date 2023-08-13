@@ -38,15 +38,16 @@ void Core::run()
 void Core::init()
 {
 	initDefault();
-	initFont(m_macro::font_0);
+	initFont(m_path::font_0);
 
 
 
 	initSettingHandle();
 	initDefaultWindow();
-	initWindow(m_macro::path_window);
+	initWindow(m_path::path_window);
 
 	initSystemHandle();
+	initTextures();
 	initState();
 }
 
@@ -71,7 +72,7 @@ void Core::initFont(std::string filePath)
 
 void Core::initSettingHandle()
 {
-	settingHandle::loadSetting(m_macro::path_setting);
+	settingHandle::loadSetting(m_path::path_setting);
 	settingHandle::title = "Minecraft 2D";
 	settingHandle::m_setting.at("RESOLUTION")->current = 3;
 	settingHandle::m_setting.at("FPS")->current = 0;
@@ -141,6 +142,17 @@ void Core::initWindow(std::string filePath)
 	}
 
 	settingHandle::window = this->window;
+}
+
+void Core::initTextures()
+{
+	systemHandle::loadTexture(m_path::bg_main);
+	systemHandle::loadTexture(m_path::bg_setting);
+	systemHandle::loadTexture(m_path::bg_singleplayer);
+	systemHandle::loadTexture(m_path::button_blank);
+	systemHandle::loadTexture(m_path::button_option);
+	systemHandle::loadTexture(m_path::button_quit);
+	systemHandle::loadTexture(m_path::button_singleplayer);
 }
 
 void Core::initSystemHandle()

@@ -4,9 +4,10 @@
 
 typedef const char* string;
 
-namespace m_macro {
+namespace m_path {
 	const string path_setting = "resource/init/setting.init";
 	const string path_window = "resource/init/window.init";
+	const string save_global = "resource/saves/global.save";
 	const string bg_main = "resource/image/bg_main.png";
 	const string bg_setting = "resource/image/bg_setting.png";
 	const string bg_singleplayer = "resource/image/bg_singleplayer.png";

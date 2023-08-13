@@ -21,7 +21,7 @@ DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color col
 	}
 }
 
-DropDownBox::DropDownBox(sf::Texture* texture, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
+DropDownBox::DropDownBox(const sf::Texture* texture, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
 {
 	show = false;
 	currentRow = 0;
@@ -54,7 +54,6 @@ void DropDownBox::update(sf::Vector2f mousePosWindow, bool isButtonPressed)
 			boxs.at(i).outlineColor = sf::Color::Red;
 			if (isButtonPressed)
 			{
-				boxs.at(i).fillColor = defaultColor - sf::Color(80, 80, 0, 20);
 				show = !show;
 				if (i && (i != currentRow))
 				{
@@ -67,8 +66,15 @@ void DropDownBox::update(sf::Vector2f mousePosWindow, bool isButtonPressed)
 		}
 		else
 		{
-			boxs.at(i).fillColor = defaultColor;
-			boxs.at(i).outlineColor = sf::Color::Black;
+			if (i == currentRow)
+			{
+				boxs.at(i).fillColor = defaultColor - sf::Color(50,50,50,0);
+				boxs.at(i).outlineColor = sf::Color::Red;
+			}
+			else{
+				boxs.at(i).fillColor = defaultColor;
+				boxs.at(i).outlineColor = sf::Color::Black;
+			}
 		}
 }
 
@@ -102,8 +108,8 @@ void DropDownBox::setCurrent(unsigned int current)
 {
 	if (current < boxs.size())
 	{
-		this->currentRow = current + 1;
-		boxs.front().name = boxs.at(current + 1).name;
+		currentRow = current + 1;
+		boxs.front().name = boxs.at(currentRow).name;
 	}
 	else
 		logWARNING("value not valid!!!");

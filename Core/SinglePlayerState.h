@@ -12,12 +12,18 @@ public:
     void render(sf::RenderTarget* target) override;
 
 private:
-    void initTexture(const std::string filePath);
+    struct save {
+        std::string name;
+        std::string filePath;
+        sf::RectangleShape icon;
+    };
+    std::vector<save> saves;
+
     void initButton();
+    void loadGlobalSave(const std::string filePath);
 
     void updateButtonActive();
-    void reinit() override;
-
+ 
 
     std::map<std::string, Button*> buttons;
 

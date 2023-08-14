@@ -45,8 +45,8 @@ void SettingState::render(sf::RenderTarget* target)
 
 void SettingState::initButton()
 {
-	buttons.insert({ "APPLY", new Button(m_path::button_blank, sf::Vector2f(systemHandle().getWindow()->getSize().x * 2.f / 3.f, systemHandle().getWindow()->getSize().y * 4.f / 5.f),
-		systemHandle::getFont(),20, "APPLY") });
+	buttons.insert({ "APPLY", new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle().getWindow()->getSize().x * 2.f / 3.f, systemHandle().getWindow()->getSize().y * 4.f / 5.f),
+		systemHandle::getFont(),22, "APPLY") });
 }
 
 void SettingState::initDropBoxs()
@@ -54,7 +54,7 @@ void SettingState::initDropBoxs()
 	sf::Vector2f position = static_cast<sf::Vector2f>(systemHandle::getWindow()->getSize()) / 2.f;
 	auto& a = settingHandle::m_setting.get("RESOLUTION");
 	settings.insert({ a.first(),
-		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x - 200.f, position.y - 100.f),systemHandle::getFont(),18,5) });
+		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x - 200.f, position.y - 100.f),systemHandle::getFont(),22,5) });
 	for (auto& i : a.second()->values)
 		settings.at(a.first())->push(i.first());
 	settings.at(a.first())->setCurrent(a.second()->current);
@@ -62,7 +62,7 @@ void SettingState::initDropBoxs()
 
 	auto& b = settingHandle::m_setting.get("FPS");
 	settings.insert({ b.first(),
-		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x + 200.f, position.y - 100.f),systemHandle::getFont(),18,5) });
+		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x + 200.f, position.y - 100.f),systemHandle::getFont(),22,5) });
 	for (auto& i : b.second()->values)
 		settings.at(b.first())->push(i.first());
 	settings[b.first()]->setCurrent(b.second()->current);

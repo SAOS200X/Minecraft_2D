@@ -17,7 +17,6 @@ protected:
 	void initBackground(const std::string filePath);
 
 	static std::stack<State*>* states;
-	sf::Texture* texture;
 	sf::Sprite sprite;
 
 };

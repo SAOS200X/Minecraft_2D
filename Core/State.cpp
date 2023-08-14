@@ -4,20 +4,24 @@
 
 State::State()
 {
-	texture = nullptr;
+
 }
 
 State::~State()
 {
-	if (texture)
-		delete texture;
+
 }
 
 void State::initBackground(const std::string filePath)
 {
-	this->sprite.setTexture(*systemHandle::getTexture(filePath));
-	float scale = systemHandle::getWindow()->getSize().y / this->sprite.getGlobalBounds().getSize().y;
-	this->sprite.setScale(scale, scale);
+	if (systemHandle::getTexture(filePath))
+	{
+		this->sprite.setTexture(*systemHandle::getTexture(filePath));
+		float scale = systemHandle::getWindow()->getSize().y / this->sprite.getGlobalBounds().getSize().y;
+		this->sprite.setScale(scale, scale);
+	}
+	else
+		logWARNING("couldn't find texture: " + filePath);
 }
 
 

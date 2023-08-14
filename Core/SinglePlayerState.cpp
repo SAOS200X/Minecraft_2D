@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SinglePlayerState.h"
 #include "systemHandle.h"
+#include "NewWorldState.h"
 
 SinglePlayerState::SinglePlayerState()
 {
@@ -19,6 +20,8 @@ void SinglePlayerState::update()
 {
 	for (auto& i : buttons)
 		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
+
+	updateButtonActive();
 }
 
 void SinglePlayerState::render(sf::RenderTarget* target)
@@ -30,8 +33,8 @@ void SinglePlayerState::render(sf::RenderTarget* target)
 
 void SinglePlayerState::initButton()
 {
-	buttons.insert({ "NEWGAME",new Button(m_path::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "New Game") });
-	buttons.insert({ "RESUME",new Button(m_path::button_blank, sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "Resume") });
+	buttons.insert({ "NEWGAME",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "New Game") });
+	buttons.insert({ "RESUME",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "Resume") });
 }
 
 void SinglePlayerState::loadGlobalSave(const std::string filePath)
@@ -61,9 +64,10 @@ void SinglePlayerState::loadGlobalSave(const std::string filePath)
 void SinglePlayerState::updateButtonActive()
 {
 	for (auto& i : buttons)
-		if (i.first == "")
+		if (i.second->isButtonPressed())
 		{
-
+			if (i.first == "NEWGAME")
+				this->states->push(new NewWorldState());
 		}
 }
 

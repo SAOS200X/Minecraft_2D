@@ -63,6 +63,7 @@
     <ClCompile Include="NewWorldState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="gameSave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuState.h">
@@ -110,5 +111,6 @@
     <ClInclude Include="NewWorldState.h">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="gameSave.h" />
   </ItemGroup>
 </Project>

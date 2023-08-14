@@ -101,6 +101,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DropDownBox.cpp" />
+    <ClCompile Include="gameSave.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="inordered_map.cpp" />
     <ClCompile Include="main.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="DropDownBox.h" />
+    <ClInclude Include="gameSave.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="inordered_map.h" />
     <ClInclude Include="MainMenuState.h" />

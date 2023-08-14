@@ -14,7 +14,7 @@ public:
 
 	void typed(const unsigned int utf);
 
-	inline const bool isSelect() { return select; }
+	inline const std::string& getString() { return str; }
 private:
 	sf::RectangleShape sprite;
 	sf::Text text;

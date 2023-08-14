@@ -1,5 +1,6 @@
 #pragma once
 #include "State.h"
+#include "gameSave.h"
 class SinglePlayerState :
     public State
 {
@@ -11,13 +12,9 @@ public:
 
     void render(sf::RenderTarget* target) override;
 
+    friend class NewWorldState;
 private:
-    struct save {
-        std::string name;
-        std::string filePath;
-        sf::RectangleShape icon;
-    };
-    std::vector<save> saves;
+    std::vector<gameSave> saves;
 
     void initButton();
     void loadGlobalSave(const std::string filePath);

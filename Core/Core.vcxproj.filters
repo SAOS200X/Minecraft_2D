@@ -57,6 +57,12 @@
     <ClCompile Include="SinglePlayerState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="TextBox.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NewWorldState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuState.h">
@@ -96,6 +102,12 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="SinglePlayerState.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBox.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NewWorldState.h">
       <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,16 +1,6 @@
 #include "pch.h"
 #include "systemHandle.h"
 
-void systemHandle::loadTexture(const std::string filePath)
-{
-	if (!textures.count(filePath))
-	{
-		textures.insert({ filePath, new sf::Texture });
-		if (!textures.at(filePath)->loadFromFile(filePath))
-			logWARNING("couldn't load image: " + filePath);
-	}
-
-}
 
 const sf::Texture* systemHandle::getTexture(const std::string filePath)
 {
@@ -27,9 +17,12 @@ const sf::Vector2i& systemHandle::getMousePosWindow()
 	return mousePosWindow;
 }
 
-const sf::Font* const systemHandle::getFont()
+const sf::Font* const systemHandle::getFont(const unsigned int index)
 {
-	return font;
+	if (index < fonts.size())
+		return fonts[index];
+	else
+		return nullptr;
 }
 
 const INT32* const systemHandle::getDeltaTime()
@@ -42,11 +35,35 @@ const bool systemHandle::isButtonPressed(const sf::Mouse::Button button)
 	return (MouseState[button] == state::pressed);
 }
 
+const unsigned int systemHandle::getUTFCode()
+{
+	return utf;
+}
+
+void systemHandle::loadTexture(const std::string filePath)
+{
+	if (!textures.count(filePath))
+	{
+		textures.insert({ filePath, new sf::Texture });
+		if (!textures.at(filePath)->loadFromFile(filePath))
+			logWARNING("couldn't load image: " + filePath);
+	}
+
+}
+
+void systemHandle::loadFont(const std::string filePath)
+{
+	fonts.push_back(new sf::Font);
+	if (!fonts.back()->loadFromFile(filePath))
+		logWARNING("couldn't load font: " + filePath);
+}
+
 std::map<std::string, sf::Texture*> systemHandle::textures;
+std::vector<sf::Font*> systemHandle::fonts;
 std::map<sf::Keyboard::Key, systemHandle::state> systemHandle::KeyState;
 std::map<sf::Mouse::Button, systemHandle::state> systemHandle::MouseState;
 
 const sf::RenderWindow* systemHandle::window = nullptr;
-sf::Font* systemHandle::font = nullptr;
 sf::Vector2i systemHandle::mousePosWindow;
 INT32* systemHandle::dt;
+unsigned int systemHandle::utf;

@@ -11,12 +11,15 @@ namespace m_path {
 	const string bg_main = "resource/image/bg_main.png";
 	const string bg_setting = "resource/image/bg_setting.png";
 	const string bg_singleplayer = "resource/image/bg_singleplayer.png";
+	const string bg_newworld = "resource/image/bg_newWorld.png";
 	const string button_blank = "resource/image/blank.png";
 	const string button_option = "resource/image/option.png";
 	const string button_quit = "resource/image/quit.png";
 	const string button_singleplayer = "resource/image/singleplayer.png";
 	const string button_multiplayer = "resource/image/multiplayer.png";
 	const string font_0 = "resource/material/font.ttf";
+	const string font_1 = "resource/material/MC_regular.otf";
+
 }
 
 

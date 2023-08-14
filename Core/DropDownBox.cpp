@@ -88,7 +88,7 @@ void DropDownBox::render(sf::RenderTarget* target)
 		target->draw(rectangle);
 
 		text.setString(boxs.at(i).name);
-		text.setOrigin(text.getGlobalBounds().getSize() / 2.f);
+		text.setOrigin(text.getLocalBounds().getSize().x / 2.f, text.getCharacterSize() * 0.65f);
 		text.setPosition(rectangle.getPosition() + rectangle.getSize() / 2.f);
 		target->draw(text);
 
@@ -115,7 +115,7 @@ void DropDownBox::setCurrent(unsigned int current)
 		logWARNING("value not valid!!!");
 }
 
-const unsigned int& DropDownBox::getCurrent()
+const unsigned int DropDownBox::getCurrent()
 {
 	return (currentRow - 1);
 }

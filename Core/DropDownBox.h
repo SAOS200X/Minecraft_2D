@@ -14,7 +14,7 @@ public:
 
 
 
-	const unsigned int& getCurrent();
+	const unsigned int getCurrent();
 private:
 	sf::RectangleShape rectangle;
 	struct properties {

@@ -20,8 +20,6 @@ Core::~Core()
 		delete states.top();
 		states.pop();
 	}
-
-	delete font;
 }
 
 void Core::run()
@@ -38,9 +36,6 @@ void Core::run()
 void Core::init()
 {
 	initDefault();
-	initFont(m_path::font_0);
-
-
 
 	initSettingHandle();
 	initDefaultWindow();
@@ -48,6 +43,7 @@ void Core::init()
 
 	initSystemHandle();
 	initTextures();
+	initFonts();
 	initState();
 }
 
@@ -57,18 +53,9 @@ void Core::initDefault()
 	window = nullptr;
 	view = nullptr;
 	dt = 0;
-	font = nullptr;
 	clock.restart();
 }
 
-void Core::initFont(std::string filePath)
-{
-	this->font = new sf::Font;
-	if (!font->loadFromFile(filePath))
-		logWARNING("couldn't open file: " + filePath);
-
-	text.setFont(*font);
-}
 
 void Core::initSettingHandle()
 {
@@ -149,16 +136,25 @@ void Core::initTextures()
 	systemHandle::loadTexture(m_path::bg_main);
 	systemHandle::loadTexture(m_path::bg_setting);
 	systemHandle::loadTexture(m_path::bg_singleplayer);
+	systemHandle::loadTexture(m_path::bg_newworld);
 	systemHandle::loadTexture(m_path::button_blank);
 	systemHandle::loadTexture(m_path::button_option);
 	systemHandle::loadTexture(m_path::button_quit);
 	systemHandle::loadTexture(m_path::button_singleplayer);
 }
 
+void Core::initFonts()
+{
+	//systemHandle::loadFont(m_path::font_0);
+	systemHandle::loadFont(m_path::font_1);
+
+
+	text.setFont(*systemHandle::getFont());
+}
+
 void Core::initSystemHandle()
 {
 	systemHandle::window = this->window;
-	systemHandle::font = this->font;
 	systemHandle::dt = &this->dt;
 }
 
@@ -212,6 +208,9 @@ void Core::updateInput()
 	dt = clock.restart().asMilliseconds();
 	systemHandle::mousePosWindow = sf::Mouse::getPosition(*window);
 
+	if (systemHandle::utf)
+		systemHandle::utf = 0;
+
 	while (window->pollEvent(ev))
 	{
 		if (ev.type == sf::Event::Closed)
@@ -229,6 +228,12 @@ void Core::updateInput()
 		
 		if (ev.type == sf::Event::MouseButtonReleased)
 			systemHandle::MouseState[ev.mouseButton.button] = systemHandle::state::release;
+
+		if (ev.type == sf::Event::TextEntered)
+		{
+			if (ev.text.unicode <= 127)
+				systemHandle::utf = ev.text.unicode;
+		}
 	}
 
 }

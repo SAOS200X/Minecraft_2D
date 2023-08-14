@@ -1,11 +1,10 @@
 #include "pch.h"
 #include "Button.h"
 
-Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, std::string str)
+Button::Button(const sf::Vector2u size, const sf::Vector2f position, const sf::Color color, const sf::Font* font, unsigned int characterSize, std::string str)
 {
 	active = true;
 	pressed = false;
-	texture = nullptr;
 
 	sprite.setSize(static_cast<sf::Vector2f>(size));
 	sprite.setOrigin(size.x / 2.f, size.y / 2.f);
@@ -20,43 +19,16 @@ Button::Button(sf::Vector2u size, sf::Vector2f position, sf::Color color, const 
 		text.setFont(*font);
 		text.setCharacterSize(characterSize);
 		text.setString(str);
-		text.setOrigin(text.getGlobalBounds().getSize().x / 2.f, text.getGlobalBounds().getSize().y / 2.f + text.getGlobalBounds().top - text.getPosition().y);
+		text.setOrigin(text.getLocalBounds().getSize().x / 2.f, characterSize * 0.65f);
 
 		text.setPosition(sprite.getPosition());
 	}
 }
 
-Button::Button(sf::Texture* texture, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, std::string str)
+Button::Button(const sf::Texture* texture, const sf::Vector2f position, const sf::Font* font, unsigned int characterSize, std::string str)
 {
 	active = true;
 	pressed = false;
-	this->texture = texture;
-
-	sprite.setSize(static_cast<sf::Vector2f>(texture->getSize()));
-	sprite.setTexture(this->texture);
-	sprite.setOrigin(this->texture->getSize().x / 2.f, this->texture->getSize().y / 2.f);
-	sprite.setPosition(position);
-	defaultColor = sf::Color::White;
-
-	if (font)
-	{
-		text.setFont(*font);
-		text.setCharacterSize(characterSize);
-		text.setString(str);
-		text.setOrigin(text.getGlobalBounds().getSize().x / 2.f, text.getGlobalBounds().getSize().y / 2.f + text.getGlobalBounds().top - text.getPosition().y);
-
-		text.setPosition(sprite.getPosition());
-	}
-}
-
-Button::Button(const std::string filePath, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, std::string str)
-{
-	active = true;
-	pressed = false;
-	texture = new sf::Texture;
-
-	if (!texture->loadFromFile(filePath))
-		logWARNING("couldn't open file: " + filePath);
 
 	sprite.setSize(static_cast<sf::Vector2f>(texture->getSize()));
 	sprite.setTexture(texture);
@@ -69,18 +41,19 @@ Button::Button(const std::string filePath, sf::Vector2f position, const sf::Font
 		text.setFont(*font);
 		text.setCharacterSize(characterSize);
 		text.setString(str);
-		text.setOrigin(text.getGlobalBounds().getSize().x / 2.f, text.getGlobalBounds().getSize().y / 2.f + text.getGlobalBounds().top - text.getPosition().y);
+		text.setOrigin(text.getLocalBounds().getSize().x / 2.f, characterSize * 0.65f);
+
 		text.setPosition(sprite.getPosition());
 	}
+
 }
 
 Button::~Button()
 {
-	if (texture)
-		delete texture;
+
 }
 
-void Button::update(sf::Vector2f mousePosWindow, bool isKeyPressed)
+void Button::update(const sf::Vector2f mousePosWindow, const bool isButtonPressed)
 {
 	if (active)
 	{
@@ -88,7 +61,7 @@ void Button::update(sf::Vector2f mousePosWindow, bool isKeyPressed)
 
 		if (sprite.getGlobalBounds().contains(mousePosWindow))
 		{
-			if (isKeyPressed)
+			if (isButtonPressed)
 			{
 				sprite.setFillColor(defaultColor - sf::Color(100, 100, 0, 20));
 				pressed = true;
@@ -107,8 +80,6 @@ void Button::render(sf::RenderTarget* target)
 	target->draw(sprite);
 	if (text.getFont())
 		target->draw(text);
-
-
 }
 
 void Button::setPosition(sf::Vector2f position)

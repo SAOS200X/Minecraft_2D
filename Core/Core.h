@@ -15,13 +15,13 @@ private:
 // -----------------------INIT ------------------------
 	void init();
 	void initDefault();
-	void initFont(std::string filePath);
 
 
 	void initSettingHandle();
 	void initDefaultWindow();
 	void initWindow(std::string filePath);
 	void initTextures();
+	void initFonts();
 	void initSystemHandle();
 	void initState();
 
@@ -51,7 +51,6 @@ private:
 // ----------------------VARIANT---------------------
 	sf::Int32 dt;
 
-	sf::Font* font;
 	sf::Text text;
 };
 

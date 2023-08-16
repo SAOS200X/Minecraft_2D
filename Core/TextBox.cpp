@@ -14,7 +14,7 @@ TextBox::TextBox(const sf::Vector2f size, const sf::Vector2f position, const sf:
 
 	text.setFont(*font);
 	text.setCharacterSize(characterSize);
-	text.setOrigin(0.f, characterSize / 2.f + text.getLocalBounds().top);
+	text.setOrigin(0.f, characterSize * 0.65f);
 	text.setPosition(sprite.getGlobalBounds().getPosition().x + 10.f, position.y);
 }
 
@@ -31,7 +31,7 @@ TextBox::TextBox(const sf::Texture* texture, const sf::Vector2f position, const 
 
 	text.setFont(*font);
 	text.setCharacterSize(characterSize);
-	text.setOrigin(0.f, characterSize / 2.f);
+	text.setOrigin(0.f, characterSize * 0.65f);
 	text.setPosition(sprite.getGlobalBounds().getPosition().x + 10.f, position.y);
 }
 

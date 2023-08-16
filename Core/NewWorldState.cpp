@@ -3,6 +3,7 @@
 #include "systemHandle.h"
 #include "SinglePlayerState.h"
 
+
 NewWorldState::NewWorldState()
 {
 	this->initBackground(m_path::bg_newworld);
@@ -72,12 +73,16 @@ void NewWorldState::updateButtonActive()
 
 void NewWorldState::createNewWorld()
 {
-	if (textBoxs.at("NAME")->getString().size())
+	auto i = static_cast<SinglePlayerState*>(states->_Get_container().at(states->size() - 2));
+	if (textBoxs.at("NAME")->getString().size() && (std::find(i->saves.begin(), i->saves.end(), textBoxs.at("NAME")->getString()) == i->saves.end()))
 	{
 		this->states->pop();
-		auto i = static_cast<SinglePlayerState*>(this->states->top());
 		std::stringstream filePath;
 		filePath << "resource/saves/save_" << i->saves.size() << ".save";
+		
+
+		if (!textBoxs.at("SEED")->getString().size())
+			textBoxs.at("SEED")->setString(rand());
 
 		std::ofstream OUTFILE(m_path::save_global);
 		if (OUTFILE.is_open())
@@ -85,8 +90,9 @@ void NewWorldState::createNewWorld()
 			OUTFILE << i->saves.size() + 1 << "\n";
 
 			for (auto& j : i->saves)
-				OUTFILE << j.getSaves().name << "\n" << j.getSaves().filePath << "\n";
-			OUTFILE << textBoxs.at("NAME")->getString() << "\n" << filePath.str() << "\n";
+				OUTFILE << j.getSaves().name << "\n" << j.getSaves().filePath << "\n" << j.getSaves().date << "\n" << j.getSaves().seed << "\n";
+
+			OUTFILE << textBoxs.at("NAME")->getString() << "\n" << filePath.str() << "\n" << time(0) << "\n" << textBoxs.at("SEED")->getString() << "\n";
 
 			OUTFILE.close();
 		}

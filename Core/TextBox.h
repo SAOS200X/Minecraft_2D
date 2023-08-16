@@ -14,6 +14,8 @@ public:
 
 	void typed(const unsigned int utf);
 
+	template<typename T>
+	inline void setString(const T str);
 	inline const std::string& getString() { return str; }
 private:
 	sf::RectangleShape sprite;
@@ -23,3 +25,10 @@ private:
 	bool select;
 };
 
+template<typename T>
+inline void TextBox::setString(const T str)
+{
+	std::stringstream ss;
+	ss << str;
+	this->str = ss.str();
+}

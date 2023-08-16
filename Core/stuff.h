@@ -50,4 +50,24 @@ struct DebugHandle
 	~DebugHandle() { printf("%s -> %lli\n", func, t.getEslapseTime()); }
 };
 
+class Date
+{
+public:
+	time_t tick;
+	tm date;
+	//tm* data;
 
+	Date(time_t tick) : tick(tick) { localtime_s(&date, &tick); };
+
+	void reset() { tick = time(0); }
+	tm* getDate() { return &date; }
+};
+
+template<typename C, typename...T>
+C getMin(T...args)
+{
+	C c = args;
+	((args < c ? c = args : c = c),...);
+
+	return c;
+}

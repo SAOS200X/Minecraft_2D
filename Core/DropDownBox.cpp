@@ -27,6 +27,7 @@ DropDownBox::DropDownBox(const sf::Texture* texture, sf::Vector2f position, cons
 	show = false;
 	currentRow = 0;
 	this->maxRow = maxRow;
+	scroll = 0;
 	defaultColor = sf::Color::White;
 
 	rectangle.setSize(static_cast<sf::Vector2f>(texture->getSize()));
@@ -152,7 +153,7 @@ void DropDownBox::ScrollDown()
 {
 	if (show)
 	{
-		if (maxRow + scroll < boxs.size() - 1)
+		if (static_cast<size_t>(maxRow) + scroll < boxs.size() - 1)
 			scroll++;
 	}
 }

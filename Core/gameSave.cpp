@@ -2,12 +2,9 @@
 #include "gameSave.h"
 
 
-gameSave::gameSave(const sf::Vector2f size, const sf::Vector2f position, const sf::Font* font, const std::string name, const std::string filePath)
+gameSave::gameSave(const sf::Vector2f size, const sf::Vector2f position, const sf::Font* font)
 {
     select = false;
-
-    m_p.name = name;
-    m_p.filePath = filePath;
 
     bound.setSize(size);
     bound.setOrigin(size / 2.f);
@@ -18,15 +15,13 @@ gameSave::gameSave(const sf::Vector2f size, const sf::Vector2f position, const s
 
 
     text_1.setFont(*font);
-    text_1.setCharacterSize(size.y / 3U);
+    text_1.setCharacterSize(size.y / 3.f);
     text_2 = text_1;
-    text_1.setPosition(bound.getGlobalBounds().getPosition().x + size.y, bound.getGlobalBounds().getPosition().y);
-    text_1.setString(name);
+    text_1.setPosition(bound.getGlobalBounds().getPosition().x + size.y, bound.getGlobalBounds().getPosition().y - text_1.getCharacterSize() * 0.15f);
 
-
-    text_2.setPosition(bound.getGlobalBounds().getPosition().x + size.y, bound.getGlobalBounds().getPosition().y + size.y / 2.f - text_2.getCharacterSize() * 0.35f);
+    text_2.setLineSpacing(0.8f);
+    text_2.setPosition(bound.getGlobalBounds().getPosition().x + size.y, bound.getGlobalBounds().getPosition().y + size.y / 2.f - text_2.getCharacterSize() * 0.5f);
     text_2.setFillColor(sf::Color(160, 160, 160));
-    text_2.setString(filePath);
 }
 
 gameSave::~gameSave()
@@ -57,4 +52,27 @@ void gameSave::render(sf::RenderTarget* target)
     target->draw(bound);
     target->draw(text_1);
     target->draw(text_2);
+}
+
+void gameSave::setPropertite(const std::string name, const std::string filePath, const std::string seed, const time_t date)
+{
+    m_p.name = name;
+    m_p.filePath = filePath;
+    m_p.seed = seed;
+    m_p.date = date;
+
+    setString();
+}
+
+void gameSave::setString()
+{
+    text_1.setString(m_p.name);
+
+    tm date;
+    localtime_s(&date, &m_p.date);
+    std::stringstream ss;
+
+    ss << m_p.name << " (" << date.tm_mday << "/" << (date.tm_mon + 1) << "/" << (date.tm_year - 100) << " " << date.tm_hour << ":" << date.tm_min << ")\n"
+        << "Seed: " << m_p.seed;
+    text_2.setString(ss.str());
 }

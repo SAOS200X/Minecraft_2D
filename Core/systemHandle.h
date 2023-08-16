@@ -10,6 +10,7 @@ public:
 	static const sf::Font* const getFont(const unsigned int index = 0);
 	static const INT32* const getDeltaTime();
 	static const bool isButtonPressed(const sf::Mouse::Button button);
+	static const bool isKeyPressed(const sf::Keyboard::Key key);
 	static const unsigned int getUTFCode();
 
 	friend class Core;

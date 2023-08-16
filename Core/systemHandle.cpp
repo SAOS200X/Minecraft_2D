@@ -35,6 +35,11 @@ const bool systemHandle::isButtonPressed(const sf::Mouse::Button button)
 	return (MouseState[button] == state::pressed);
 }
 
+const bool systemHandle::isKeyPressed(const sf::Keyboard::Key key)
+{
+	return (KeyState[key] == state::pressed);
+}
+
 const unsigned int systemHandle::getUTFCode()
 {
 	return utf;

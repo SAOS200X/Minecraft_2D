@@ -35,6 +35,8 @@ void Core::run()
 
 void Core::init()
 {
+	srand(time(0));
+
 	initDefault();
 
 	initSettingHandle();
@@ -184,7 +186,7 @@ void Core::updateKeyPressed()
 {
 	_MY_DEBUG_
 
-	for (unsigned int i = 0; i < 35; i++)
+	for (unsigned int i = 0; i < 75; i++)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(i)))
 		{
 			if (systemHandle::KeyState[sf::Keyboard::Key(i)] == systemHandle::state::release)

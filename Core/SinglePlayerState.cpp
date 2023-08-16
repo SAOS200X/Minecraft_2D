@@ -18,11 +18,18 @@ SinglePlayerState::~SinglePlayerState()
 
 void SinglePlayerState::update()
 {
+	bool select = false;
+	for (auto& i : saves)
+	{
+		i.update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
+		if (i.isSelect())
+			select = true;
+	}
+
+	buttons.at("RESUME")->setActive(select);
 	for (auto& i : buttons)
 		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
 
-	for (auto& i : saves)
-		i.update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
 
 	updateButtonActive();
 }
@@ -43,6 +50,7 @@ void SinglePlayerState::initButton()
 		systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "New Game") });
 	buttons.insert({ "RESUME",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 200.f, 
 		systemHandle::getWindow()->getSize().y * 6.f / 7.f), systemHandle::getFont(), 24, "Resume") });
+	buttons.at("RESUME")->setActive(false);
 }
 
 void SinglePlayerState::loadGlobalSave(const std::string filePath)
@@ -53,29 +61,28 @@ void SinglePlayerState::loadGlobalSave(const std::string filePath)
 	if (INFILE.is_open())
 	{
 		INFILE >> num;
+		INFILE.ignore();
 		if (num)
 		{
-			std::string name, savePath;
+			std::string name, savePath, seed;
+			time_t date;
 			for (unsigned int i = 0; i < num; i++)
 			{
-				INFILE.ignore();
 				std::getline(INFILE, name);
-				INFILE >> savePath;
+				std::getline(INFILE, savePath);
+				INFILE >> date;
+				INFILE.ignore();
+				std::getline(INFILE, seed);
 
-				saves.emplace_back(sf::Vector2f(500.f,70.f), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y * 2.f / 7.f + 75.f * i),
-					systemHandle::getFont(), name, savePath);
+				saves.emplace_back(sf::Vector2f(600.f,80.f), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y * 2.f / 7.f + 100.f * i),
+					systemHandle::getFont());
+				saves.back().setPropertite(name, savePath, seed, date);
 			}
 		}
 		INFILE.close();
 	}
 	else
 		logERROR("couldn't not load global save: " + filePath);
-
-	if (num)
-		buttons.at("RESUME")->setActive(true);
-	else
-		buttons.at("RESUME")->setActive(false);
-
 }
 
 void SinglePlayerState::updateButtonActive()

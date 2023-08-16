@@ -11,7 +11,8 @@ public:
 
 	void push(const std::string& str);
 	void setCurrent(unsigned int current);
-
+	void scrollUp();
+	void ScrollDown();
 
 
 	const unsigned int getCurrent();
@@ -31,6 +32,7 @@ private:
 
 	unsigned int currentRow;
 	unsigned int maxRow;
+	unsigned int scroll;
 
 	bool show;
 };

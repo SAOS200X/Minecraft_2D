@@ -25,7 +25,13 @@ SettingState::~SettingState()
 void SettingState::update()
 {
 	for (auto& i : settings)
+	{
+		if (systemHandle::isKeyPressed(sf::Keyboard::Up))
+			i.second->scrollUp();
+		else if (systemHandle::isKeyPressed(sf::Keyboard::Down))
+			i.second->ScrollDown();
 		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
+	}
 
 	for (auto& i : buttons)
 		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
@@ -51,10 +57,10 @@ void SettingState::initButton()
 
 void SettingState::initDropBoxs()
 {
-	sf::Vector2f position = static_cast<sf::Vector2f>(systemHandle::getWindow()->getSize()) / 2.f;
+	sf::Vector2f position = static_cast<sf::Vector2f>(systemHandle::getWindow()->getSize());
 	auto& a = settingHandle::m_setting.get("RESOLUTION");
 	settings.insert({ a.first(),
-		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x - 200.f, position.y - 100.f),systemHandle::getFont(),22,5) });
+		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x / 2.f - 200.f, position.y / 3.f),systemHandle::getFont(),22,4) });
 	for (auto& i : a.second()->values)
 		settings.at(a.first())->push(i.first());
 	settings.at(a.first())->setCurrent(a.second()->current);
@@ -62,7 +68,7 @@ void SettingState::initDropBoxs()
 
 	auto& b = settingHandle::m_setting.get("FPS");
 	settings.insert({ b.first(),
-		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x + 200.f, position.y - 100.f),systemHandle::getFont(),22,5) });
+		new DropDownBox(systemHandle::getTexture(m_path::button_blank),sf::Vector2f(position.x / 2.f + 200.f, position.y / 3.f),systemHandle::getFont(),22,4) });
 	for (auto& i : b.second()->values)
 		settings.at(b.first())->push(i.first());
 	settings[b.first()]->setCurrent(b.second()->current);

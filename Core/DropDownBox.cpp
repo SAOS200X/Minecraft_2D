@@ -6,6 +6,7 @@ DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color col
 	show = false;
 	currentRow = 0;
 	this->maxRow = maxRow;
+	scroll = 0;
 	defaultColor = color;
 
 	rectangle.setSize(size);
@@ -48,8 +49,21 @@ DropDownBox::~DropDownBox()
 
 void DropDownBox::update(sf::Vector2f mousePosWindow, bool isButtonPressed)
 {
-	for (unsigned int i = 0; i< boxs.size();i++)
-		if (boxs.at(i).rect.contains(mousePosWindow))
+	for (unsigned int i = 0; i < boxs.size(); i++)
+	{
+		if (i > maxRow + scroll)
+			break;
+		else if (i && i <= scroll)
+			continue;
+
+		sf::FloatRect rect;
+
+		if (!i)
+			rect = boxs.at(i).rect;
+		else
+			rect = boxs.at(i - scroll).rect;
+
+		if (rect.contains(mousePosWindow))
 		{
 			boxs.at(i).outlineColor = sf::Color::Red;
 			if (isButtonPressed)
@@ -68,21 +82,31 @@ void DropDownBox::update(sf::Vector2f mousePosWindow, bool isButtonPressed)
 		{
 			if (i == currentRow)
 			{
-				boxs.at(i).fillColor = defaultColor - sf::Color(50,50,50,0);
+				boxs.at(i).fillColor = defaultColor - sf::Color(50, 50, 50, 0);
 				boxs.at(i).outlineColor = sf::Color::Red;
 			}
-			else{
+			else {
 				boxs.at(i).fillColor = defaultColor;
 				boxs.at(i).outlineColor = sf::Color::Black;
 			}
 		}
+	}
 }
 
 void DropDownBox::render(sf::RenderTarget* target)
 {	
-	for (UINT32 i = 0; i < (maxRow >= boxs.size() ? boxs.size() : maxRow); i++)
+	for (UINT32 i = 0; i < boxs.size(); i++)
 	{
-		rectangle.setPosition(boxs.at(i).rect.getPosition());
+		if (i > maxRow + scroll)
+			break;
+		else if (i && i <= scroll)
+			continue;
+
+		if (i)
+			rectangle.setPosition(boxs.at(i - scroll).rect.getPosition());
+		else
+			rectangle.setPosition(boxs.at(i).rect.getPosition());
+
 		rectangle.setFillColor(boxs.at(i).fillColor);
 		rectangle.setOutlineColor(boxs.at(i).outlineColor);
 		target->draw(rectangle);
@@ -113,6 +137,24 @@ void DropDownBox::setCurrent(unsigned int current)
 	}
 	else
 		logWARNING("value not valid!!!");
+}
+
+void DropDownBox::scrollUp()
+{
+	if (show)
+	{
+		if (scroll > 0)
+			scroll--;
+	}
+}
+
+void DropDownBox::ScrollDown()
+{
+	if (show)
+	{
+		if (maxRow + scroll < boxs.size() - 1)
+			scroll++;
+	}
 }
 
 const unsigned int DropDownBox::getCurrent()

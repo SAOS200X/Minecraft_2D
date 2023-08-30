@@ -3,191 +3,108 @@
 
 template<typename K, typename V>
 struct m_Iterator {
-	template<typename k, typename v>
-	friend class inordered_map;
 
-	const K& first() {
-		return *ptr;
-	}
+	inline const K& first() { return *ptr; }
 
-	const V& second() {
-		return m_map.at(*ptr);
-	}
+	inline const V& second() { return value.at(ptr - key.begin()); }
 
-	const unsigned int index() {
-		return (ptr - order.begin());
-	}
+	inline const size_t index() { return (ptr - key.begin()); }
 
-	m_Iterator& operator++() {
-		++ptr;
-		return *this;
-	}
+	inline m_Iterator& operator+(const size_t index) { ptr += index; return *this; }
 
-	m_Iterator& operator+(const unsigned int right) {
-		ptr += right;
-		return *this;
-	}
+	inline m_Iterator& operator-(const size_t index) { ptr -= index; return *this; }
 
-	m_Iterator& operator*() {
-		return *this;
-	}
+	inline m_Iterator& operator++() { ++ptr; return *this; }
 
-	bool operator!=(const m_Iterator& right) {
-		return (ptr != right.ptr);
-	}
+	inline m_Iterator& operator*() { return *this; }
 
-private:
+	inline bool operator!=(const m_Iterator& right) { return (ptr != right.ptr); }
+
+protected:
 	m_Iterator& m_begin() {
-		ptr = order.begin();
+		ptr = key.begin();
 		return *this;
 	}
 
 	m_Iterator& m_end() {
-		ptr = order.end();
+		ptr = key.end();
 		return *this;
 	}
 
 	typename std::vector<K>::iterator ptr;
 
-	std::map<K, V> m_map;
-	std::vector<K> order;
+	std::vector<K> key;
+	std::vector<V> value;
 };
 
-
-
 template<typename K, typename V>
-class inordered_map
+class inordered_map : public m_Iterator<K, V>
 {
-private:
-	m_Iterator<K, V> it;
 public:
 	/////////////////////////////////////////////// GET //////////////////////////////////////////////////
 
-	m_Iterator<K, V>& begin() {
-		return it.m_begin();
+	inline m_Iterator<K, V>& begin() { return this->m_begin(); }
+
+	inline m_Iterator<K, V>& end() { return this->m_end(); }
+
+	inline V& front() { return this->value.front(); }
+
+	inline V& back() { return this->value.back(); }
+
+	inline V& at(const K& key) { return (this->value.at(std::find(this->key.begin(), this->key.end(), key) - this->key.begin())); }
+
+	inline V& at(const size_t& index) { return this->value.at(index); }
+
+	inline V& operator[](const size_t& index) { return this->value[index]; }
+
+	inline V& operator[](const K& key) { return (this->value[std::find(this->key.begin(), this->key.end(), key) - this->key.begin()]); }
+
+	inline const size_t size() { return this->key.size(); }
+
+	const size_t find(const V& value) {
+		return (std::find(this->value.begin(), this->value.end(), value) - this->value.begin());
 	}
 
-	m_Iterator<K, V>& end() {
-		return it.m_end();
-	}
-
-	m_Iterator<K, V>& back() {
-		if (it.order.size() == 0)
-			it.ptr = it.order.begin();
-		else
-			it.ptr = (it.order.end() - 1);
-		return it;
-	}
-
-	m_Iterator<K, V>& get(const unsigned int index) {
-		return (it.m_begin() + index);
-	}
-
-	m_Iterator<K,V>& get(const K& key) {
-		it.ptr = std::find(it.order.begin(), it.order.end(), key);
-		return it;
-	}
-
-	V& at(const K& key) {
-		return it.m_map.at(key);
-	}
-
-	V& at(K&& key) {
-		return it.m_map.at(key);
-	}
-
-	V& at(const unsigned int index) {
-		return it.m_map.at(it.order.at(index));
-	}
-
-	V& operator[](const unsigned int index) {
-		return it.m_map[it.order[index]];
-	}
-
-	V& operator[](K&& key) {
-		return it.m_map[key];
-	}
-
-	V& operator[](const K& key) {
-		return it.m_map[key];
-	}
-
-	const std::vector<K>& getKeys() {
-		return it.order;
-	}
-
-
-	const unsigned int size() {
-		return it.order.size();
-	}
-
-	const unsigned int find(V&& value) {
-		for (size_t i = 0; i < it.order.size(); i++) {
-			if (it.m_map[it.order.at(i)] == value)
-				return i;
-		}
-	}
-
-	const unsigned int find2(V&& value) {
-		for (auto i = it.order.begin(); i != it.order.end(); ++i) {
-			if (it.m_map[*i] == value)
-				return (i - it.order.begin());
-		}
-	}
-
-	const bool contain(K&& key) {
-		return it.m_map.count(key);
+	const size_t find(const K& key) {
+		return (std::find(this->key.begin(), this->key.end(), key) - this->key.begin());
 	}
 
 	const bool contain(const K& key) {
-		return it.m_map.count(key);
+		return (std::find(this->key.begin(), this->key.end(), key) != this->key.end());
 	}
 
 	///////////////////////////////////////////////////// SET ////////////////////////////////////////////////////////
-	void insert(K&& key, V&& value) {
-		it.m_map.insert({ key,value });
-		it.order.push_back(key);
+	void insert(const K& key, const V& value) {
+		this->key.push_back(key);
+		this->value.push_back(key);
 	}
 
-	void insert(std::pair<K, V>&& pair) {
-		it.m_map.insert(pair);
-		it.order.push_back(pair.first);
+	void insert(const std::pair<K, V>& pair) {
+		this->key.push_back(pair.first);
+		this->value.push_back(pair.second);
 	}
 
-	template<typename ty1, typename...ty2>
-	void emplace_back(ty1&& arg, ty2&&...args) {
-		it.m_map.emplace(arg, args...);
-		it.order.emplace_back(arg);
+	template<typename...ty1, typename...ty2>
+	void emplace_back(const std::tuple<ty1...>& arg1, const std::tuple<ty2...>& arg2) {
+		std::apply([=](auto...args) {this->key.emplace_back(args...); }, arg1);
+		std::apply([=](auto...args) {this->value.emplace_back(args...); }, arg2);
 	}
 
-	void erase(const unsigned int index) {
-		if (index < it.order.size())
-		{
-			it.m_map.erase(it.order.at(index));
-			it.order.erase(it.order.begin() + index);
-		}
-	}
-
-	void erase(K&& key) {
-		if (std::find(it.order.begin(), it.order.end(), key) != it.order.end())
-		{
-			it.m_map.erase(key);
-			it.order.erase(std::find(it.order.begin(), it.order.end(), key));
-		}
+	void erase(const size_t index) {
+		this->key.erase(this->key.begin() + index);
+		this->value.erase(this->value.begin() + index);
 	}
 
 	void erase(const K& key) {
-		if (std::find(it.order.begin(), it.order.end(), key) != it.order.end())
-		{
-			it.m_map.erase(key);
-			it.order.erase(std::find(it.order.begin(), it.order.end(), key));
-		}
+		const unsigned int index = (std::find(this->key.begin(), this->key.end(), key) - this->key.begin());
+		this->key.erase(this->key.begin() + index);
+		this->value.erase(this->value.begin() + index);
 	}
 
 	void clear()
 	{
-		it.m_map.clear();
-		it.order.clear();
-		it.ptr = it.order.begin();
+		this->key.clear();
+		this->value.clear();
+		this->ptr = this->key.begin();
 	}
 };

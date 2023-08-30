@@ -13,6 +13,18 @@
     <Filter Include="Stuff">
       <UniqueIdentifier>{e4100747-c082-4208-880d-af096262dce2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{e8e2d5a5-2307-4128-b28a-9ea62947343e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handle">
+      <UniqueIdentifier>{a6722b09-3823-44fd-80e3-6d94070f01a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{f0f2d419-d057-4801-9f13-70d523f4932f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TileMap">
+      <UniqueIdentifier>{e8daba1e-2fe2-4565-a4e2-73bd5b4ffb31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainMenuState.cpp">
@@ -42,17 +54,11 @@
     <ClCompile Include="pch.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="systemHandle.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="inordered_map.cpp">
       <Filter>Stuff</Filter>
     </ClCompile>
     <ClCompile Include="stuff.cpp">
       <Filter>Stuff</Filter>
-    </ClCompile>
-    <ClCompile Include="settingHandle.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SinglePlayerState.cpp">
       <Filter>States</Filter>
@@ -63,7 +69,33 @@
     <ClCompile Include="NewWorldState.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="gameSave.cpp" />
+    <ClCompile Include="gameSave.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="systemHandle.cpp">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="settingHandle.cpp">
+      <Filter>Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TileBase.cpp">
+      <Filter>TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapGenerator.cpp">
+      <Filter>TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuState.h">
@@ -87,9 +119,6 @@
     <ClInclude Include="Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="systemHandle.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -98,9 +127,6 @@
     </ClInclude>
     <ClInclude Include="stuff.h">
       <Filter>Stuff</Filter>
-    </ClInclude>
-    <ClInclude Include="settingHandle.h">
-      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="SinglePlayerState.h">
       <Filter>States</Filter>
@@ -111,6 +137,32 @@
     <ClInclude Include="NewWorldState.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="gameSave.h" />
+    <ClInclude Include="gameSave.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="systemHandle.h">
+      <Filter>Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="settingHandle.h">
+      <Filter>Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileBase.h">
+      <Filter>TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapGenerator.h">
+      <Filter>TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

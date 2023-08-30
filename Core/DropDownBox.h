@@ -17,6 +17,8 @@ public:
 
 	const unsigned int getCurrent();
 private:
+	void init();
+
 	sf::RectangleShape rectangle;
 	struct properties {
 		properties(const std::string name, const sf::FloatRect rect, const sf::Color defaultColor) : name(name), rect(rect), fillColor(defaultColor) {}
@@ -25,6 +27,7 @@ private:
 		sf::Color fillColor;
 		sf::Color outlineColor = sf::Color::Black;
 	};
+
 	sf::Color defaultColor;
 
 	std::vector< properties> boxs;

@@ -15,6 +15,14 @@ Core::~Core()
 	else
 		delete window;
 
+	if (view)
+		delete view;
+
+	for (auto& i : systemHandle::textures)
+		delete i.second;
+	for (auto& i : systemHandle::fonts)
+		delete i;
+
 	while (!states.empty())
 	{
 		delete states.top();
@@ -35,8 +43,6 @@ void Core::run()
 
 void Core::init()
 {
-	srand(time(0));
-
 	initDefault();
 
 	initSettingHandle();
@@ -51,6 +57,7 @@ void Core::init()
 
 void Core::initDefault()
 {
+	srand(static_cast<unsigned>(time(0)));
 	defaultWindow = nullptr;
 	window = nullptr;
 	view = nullptr;
@@ -130,7 +137,15 @@ void Core::initWindow(std::string filePath)
 		window = defaultWindow;
 	}
 
+	view = new sf::View(0.5f * window->getSize(), 1.f * window->getSize());
 	settingHandle::window = this->window;
+}
+
+void Core::initSystemHandle()
+{
+	systemHandle::window = this->window;
+	systemHandle::view = this->view;
+	systemHandle::dt = &this->dt;
 }
 
 void Core::initTextures()
@@ -143,6 +158,8 @@ void Core::initTextures()
 	systemHandle::loadTexture(m_path::button_option);
 	systemHandle::loadTexture(m_path::button_quit);
 	systemHandle::loadTexture(m_path::button_singleplayer);
+	systemHandle::loadTexture(m_path::tilesheet);
+
 }
 
 void Core::initFonts()
@@ -154,11 +171,6 @@ void Core::initFonts()
 	text.setFont(*systemHandle::getFont());
 }
 
-void Core::initSystemHandle()
-{
-	systemHandle::window = this->window;
-	systemHandle::dt = &this->dt;
-}
 
 void Core::initState()
 {
@@ -207,8 +219,11 @@ void Core::updateKeyPressed()
 
 void Core::updateInput()
 {
-	dt = clock.restart().asMilliseconds();
+	dt = clock.getEslapseTime();
+	clock.restart();
+
 	systemHandle::mousePosWindow = sf::Mouse::getPosition(*window);
+	systemHandle::mousePosView = window->mapPixelToCoords(systemHandle::mousePosWindow, *view);
 
 	if (systemHandle::utf)
 		systemHandle::utf = 0;
@@ -217,14 +232,6 @@ void Core::updateInput()
 	{
 		if (ev.type == sf::Event::Closed)
 			window->close();
-		else if (ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)
-		{
-			if (State::states->size() > 1)
-			{
-				delete State::states->top();
-				State::states->pop();
-			}
-		}
 		else if (ev.type == sf::Event::KeyReleased)
 			systemHandle::KeyState[ev.key.code] = systemHandle::state::release;
 		
@@ -242,13 +249,14 @@ void Core::updateInput()
 
 void Core::updateTextDebug()
 {
-	auto m = systemHandle::getMousePosWindow();
+	auto m = static_cast<sf::Vector2i>(systemHandle::getMousePosView());
+	auto n = systemHandle::getMousePosWindow();
 	std::stringstream ss;
 	ss << m.x << " " << m.y;
 	text.setCharacterSize(16);
 	text.setOutlineThickness(2.f);
 	text.setString(ss.str());
-	text.setPosition(m.x + 10.f, m.y + 10.f);
+	text.setPosition(n.x + 10.f, n.y + 10.f);
 }
 
 void Core::render()

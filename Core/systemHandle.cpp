@@ -12,9 +12,19 @@ const sf::RenderWindow* const systemHandle::getWindow()
 	return window;
 }
 
+sf::View* const systemHandle::getView()
+{
+	return view;
+}
+
 const sf::Vector2i& systemHandle::getMousePosWindow()
 {
 	return mousePosWindow;
+}
+
+const sf::Vector2f& systemHandle::getMousePosView()
+{
+	return mousePosView;
 }
 
 const sf::Font* const systemHandle::getFont(const unsigned int index)
@@ -25,9 +35,9 @@ const sf::Font* const systemHandle::getFont(const unsigned int index)
 		return nullptr;
 }
 
-const INT32* const systemHandle::getDeltaTime()
+const size_t& systemHandle::getDeltaTime()
 {
-	return dt;
+	return *dt;
 }
 
 const bool systemHandle::isButtonPressed(const sf::Mouse::Button button)
@@ -69,6 +79,8 @@ std::map<sf::Keyboard::Key, systemHandle::state> systemHandle::KeyState;
 std::map<sf::Mouse::Button, systemHandle::state> systemHandle::MouseState;
 
 const sf::RenderWindow* systemHandle::window = nullptr;
+sf::View* systemHandle::view = nullptr;
 sf::Vector2i systemHandle::mousePosWindow;
-INT32* systemHandle::dt;
+sf::Vector2f systemHandle::mousePosView;
+size_t* systemHandle::dt;
 unsigned int systemHandle::utf;

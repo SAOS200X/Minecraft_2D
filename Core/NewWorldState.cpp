@@ -54,8 +54,11 @@ void NewWorldState::initTextBoxs()
 
 void NewWorldState::initButton()
 {
-	buttons.insert({ "CREATE",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), 
+	buttons.insert({ "CREATE",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 100.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), 
 		systemHandle::getFont(), 24, "Create New World") });
+
+	buttons.insert({ "CANCEL",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 100.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f),
+		systemHandle::getFont(), 24, "Cancel") });
 }
 
 void NewWorldState::updateButtonActive()
@@ -64,10 +67,13 @@ void NewWorldState::updateButtonActive()
 		if (i.second->isButtonPressed())
 		{
 			if (i.first == "CREATE")
-			{
 				createNewWorld();
-				return;
+			else if (i.first == "CANCEL")
+			{
+				this->states->pop();
+				delete this;
 			}
+			return;
 		}
 }
 
@@ -77,9 +83,7 @@ void NewWorldState::createNewWorld()
 	if (textBoxs.at("NAME")->getString().size() && (std::find(i->saves.begin(), i->saves.end(), textBoxs.at("NAME")->getString()) == i->saves.end()))
 	{
 		this->states->pop();
-		std::stringstream filePath;
-		filePath << "resource/saves/save_" << i->saves.size() << ".save";
-		
+		std::string filePath = "resource/saves/" + textBoxs.at("NAME")->getString() + ".save";
 
 		if (!textBoxs.at("SEED")->getString().size())
 			textBoxs.at("SEED")->setString(rand());
@@ -92,24 +96,18 @@ void NewWorldState::createNewWorld()
 			for (auto& j : i->saves)
 				OUTFILE << j.getSaves().name << "\n" << j.getSaves().filePath << "\n" << j.getSaves().date << "\n" << j.getSaves().seed << "\n";
 
-			OUTFILE << textBoxs.at("NAME")->getString() << "\n" << filePath.str() << "\n" << time(0) << "\n" << textBoxs.at("SEED")->getString() << "\n";
+			OUTFILE << textBoxs.at("NAME")->getString() << "\n" << filePath << "\n" << time(0) << "\n" << textBoxs.at("SEED")->getString() << "\n";
 
 			OUTFILE.close();
 		}
-		else
-			logERROR("Couldn't save global save: " + std::string(m_path::save_global));
-
 		
-		OUTFILE.open(filePath.str());
+		OUTFILE.open(filePath);
 		if (OUTFILE.is_open())
 		{
-			OUTFILE << textBoxs.at("NAME")->getString() << "\n";
+			OUTFILE << time(0) << " " << 0 << "\n";
 			OUTFILE << textBoxs.at("SEED")->getString() << "\n";
-
 			OUTFILE.close();
 		}
-		else
-			logERROR("couldn't save file at: " + filePath.str());
 
 		i->loadGlobalSave(m_path::save_global);
 

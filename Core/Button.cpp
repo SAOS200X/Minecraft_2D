@@ -89,16 +89,19 @@ void Button::setPosition(sf::Vector2f position)
 
 void Button::setActive(const bool state)
 {
-	active = state;
-	if (active)
+	if (active != state)
 	{
-		sprite.setFillColor(defaultColor);
-		text.setFillColor(sf::Color::White);
-	}
-	else
-	{
-		sprite.setFillColor(defaultColor - sf::Color(100,100,100,80));
-		text.setFillColor(sf::Color(200,200,200,200));
+		active = state;
+		if (active)
+		{
+			sprite.setFillColor(defaultColor);
+			text.setFillColor(sf::Color::White);
+		}
+		else
+		{
+			sprite.setFillColor(defaultColor - sf::Color(100, 100, 100, 80));
+			text.setFillColor(sf::Color(200, 200, 200, 200));
+		}
 	}
 }
 

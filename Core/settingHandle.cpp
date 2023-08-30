@@ -15,7 +15,7 @@ void settingHandle::loadSetting(const std::string filePath)
 			size_t off = 0, mark = 0;
 			std::getline(INFILE, str);
 
-			m_setting.emplace_back(str.substr(off, mark = str.find('(', off)), new settings());
+			m_setting.emplace_back(std::forward_as_tuple(str.substr(off, mark = str.find('(', off))), std::forward_as_tuple(new settings()));
 
 			str = str.substr(mark, str.rfind(')', str.size() - off) - mark);
 
@@ -35,7 +35,7 @@ void settingHandle::loadSetting(const std::string filePath)
 				{
 					unsigned int a;
 					ss >> a;
-					m_setting.back().second()->values.emplace_back(token.substr(0, token.find('(')), a);
+					m_setting.back()->values.emplace_back(std::forward_as_tuple(token.substr(0, token.find('('))), std::forward_as_tuple(a));
 
 				}
 				else if (type == "v2u")
@@ -43,7 +43,7 @@ void settingHandle::loadSetting(const std::string filePath)
 					sf::Vector2u a;
 					ss >> a.x >> a.y;
 
-					m_setting.back().second()->values.emplace_back(token.substr(0, token.find('(')), a);
+					m_setting.back()->values.emplace_back(std::forward_as_tuple(token.substr(0, token.find('('))), std::forward_as_tuple(a));
 				}
 			}
 		}

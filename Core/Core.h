@@ -20,9 +20,9 @@ private:
 	void initSettingHandle();
 	void initDefaultWindow();
 	void initWindow(std::string filePath);
+	void initSystemHandle();
 	void initTextures();
 	void initFonts();
-	void initSystemHandle();
 	void initState();
 
 
@@ -43,13 +43,13 @@ private:
 	sf::RenderWindow* window;
 	sf::View* view;
 	sf::Event ev;
-	sf::Clock clock;
+	Timer<> clock;
 
 	std::stack<State*> states;
 
 	
 // ----------------------VARIANT---------------------
-	sf::Int32 dt;
+	size_t dt;
 
 	sf::Text text;
 };

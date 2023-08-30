@@ -16,9 +16,10 @@ namespace m_path {
 	const string button_option = "resource/image/option.png";
 	const string button_quit = "resource/image/quit.png";
 	const string button_singleplayer = "resource/image/singleplayer.png";
-	const string button_multiplayer = "resource/image/multiplayer.png";
 	const string font_0 = "resource/material/font.ttf";
 	const string font_1 = "resource/material/MC_regular.otf";
+	const string tilesheet = "resource/material/tile_sheet.png";
+
 
 }
 
@@ -71,3 +72,21 @@ C getMin(T...args)
 
 	return c;
 }
+
+template<typename T>
+inline bool operator<(const sf::Vector2<T>& left, const sf::Vector2<T>& right) { return (left.x < right.x); }
+
+template<typename L, typename R>
+inline sf::Vector2<L> operator-(const sf::Vector2<L>& left, const sf::Vector2<R>& right) { sf::Vector2<L>(left.x - right.x, left.y - right.y); }
+
+template<typename L, typename R>
+inline sf::Vector2<L> operator+(const sf::Vector2<L>& left, const sf::Vector2<R>& right) { sf::Vector2<L>(left.x + right.x, left.y + right.y); }
+
+template<typename L, typename R>
+inline sf::Vector2<L> operator*(const sf::Vector2<L>& left, const R& right) { return sf::Vector2<L>(left.x * right, left.y * right); }
+
+template<typename L, typename R>
+inline sf::Vector2<R> operator*(const R& right, const sf::Vector2<L>& left) { return sf::Vector2<R>(left.x * right, left.y * right); }
+
+template<typename L, typename R>
+inline sf::Vector2<L> operator/(const sf::Vector2<L>& left, const R& right) { return sf::Vector2<L>(left.x / static_cast<L>(right), left.y / static_cast<L>(right)); }

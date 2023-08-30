@@ -37,18 +37,21 @@ void MainMenuState::reinit()
 	float scale = systemHandle::getWindow()->getSize().y / static_cast<float>(this->sprite.getLocalBounds().getSize().y);
 	this->sprite.setScale(scale, scale);
 
-	buttons.at("START")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y / 2.f));
-	buttons.at("OPTION")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 128.f, systemHandle::getWindow()->getSize().y / 2.f + 80.f));
-	buttons.at("QUIT")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f +128.f, systemHandle::getWindow()->getSize().y / 2.f + 80.f));
+	buttons.at("START")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y / 2.f - 80.f));
+	buttons.at("OPTION")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 128.f, systemHandle::getWindow()->getSize().y / 2.f));
+	buttons.at("QUIT")->setPosition(sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 128.f, systemHandle::getWindow()->getSize().y / 2.f));
 }
 
 void MainMenuState::initButton()
 {
 	_MY_DEBUG_
 
-	buttons.insert({"START", new Button(systemHandle::getTexture(m_path::button_singleplayer), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, 300.f))});
-	buttons.insert({ "OPTION", new Button(systemHandle::getTexture(m_path::button_option), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 128.f, 380.f)) });
-	buttons.insert({ "QUIT", new Button(systemHandle::getTexture(m_path::button_quit), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 128.f, 380.f)) });
+	buttons.insert({"START", new Button(systemHandle::getTexture(m_path::button_singleplayer), 
+		sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f, systemHandle::getWindow()->getSize().y / 2.f - 80.f))});
+	buttons.insert({ "OPTION", new Button(systemHandle::getTexture(m_path::button_option), 
+		sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 130.f, systemHandle::getWindow()->getSize().y / 2.f)) });
+	buttons.insert({ "QUIT", new Button(systemHandle::getTexture(m_path::button_quit), 
+		sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 130.f, systemHandle::getWindow()->getSize().y / 2.f)) });
 }
 
 

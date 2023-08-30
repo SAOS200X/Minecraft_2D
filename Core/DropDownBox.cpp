@@ -3,14 +3,10 @@
 
 DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color color, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
 {
-	show = false;
-	currentRow = 0;
+	init();
 	this->maxRow = maxRow;
-	scroll = 0;
 	defaultColor = color;
-
 	rectangle.setSize(size);
-	rectangle.setOutlineThickness(2.f);
 
 	boxs.push_back(properties("NONE", sf::FloatRect(position - (size / 2.f), size), color));
 
@@ -18,21 +14,16 @@ DropDownBox::DropDownBox(sf::Vector2f size, sf::Vector2f position, sf::Color col
 	{
 		text.setFont(*font);
 		text.setCharacterSize(characterSize);
-		text.setOutlineThickness(2.f);
 	}
 }
 
 DropDownBox::DropDownBox(const sf::Texture* texture, sf::Vector2f position, const sf::Font* font, unsigned int characterSize, unsigned int maxRow)
 {
-	show = false;
-	currentRow = 0;
+	init();
 	this->maxRow = maxRow;
-	scroll = 0;
-	defaultColor = sf::Color::White;
 
 	rectangle.setSize(static_cast<sf::Vector2f>(texture->getSize()));
 	rectangle.setTexture(texture);
-	rectangle.setOutlineThickness(2.f);
 
 	boxs.push_back(properties("NONE", sf::FloatRect(position - (rectangle.getSize() / 2.f), (rectangle.getSize())), sf::Color::White));
 
@@ -40,7 +31,6 @@ DropDownBox::DropDownBox(const sf::Texture* texture, sf::Vector2f position, cons
 	{
 		text.setFont(*font);
 		text.setCharacterSize(characterSize);
-		text.setOutlineThickness(2.f);
 	}
 }
 
@@ -161,4 +151,15 @@ void DropDownBox::ScrollDown()
 const unsigned int DropDownBox::getCurrent()
 {
 	return (currentRow - 1);
+}
+
+void DropDownBox::init()
+{
+	show = false;
+	currentRow = 0;
+	this->maxRow = 0;
+	scroll = 0;
+	defaultColor = sf::Color::White;
+	rectangle.setOutlineThickness(2.f);
+	text.setOutlineThickness(2.f);
 }

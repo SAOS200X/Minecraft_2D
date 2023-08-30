@@ -15,7 +15,7 @@ gameSave::gameSave(const sf::Vector2f size, const sf::Vector2f position, const s
 
 
     text_1.setFont(*font);
-    text_1.setCharacterSize(size.y / 3.f);
+    text_1.setCharacterSize(static_cast<unsigned int>(size.y / 3.f));
     text_2 = text_1;
     text_1.setPosition(bound.getGlobalBounds().getPosition().x + size.y, bound.getGlobalBounds().getPosition().y - text_1.getCharacterSize() * 0.15f);
 
@@ -54,7 +54,7 @@ void gameSave::render(sf::RenderTarget* target)
     target->draw(text_2);
 }
 
-void gameSave::setPropertite(const std::string name, const std::string filePath, const std::string seed, const time_t date)
+void gameSave::setPropertite(const std::string& name, const std::string& filePath, const std::string& seed, const time_t& date)
 {
     m_p.name = name;
     m_p.filePath = filePath;

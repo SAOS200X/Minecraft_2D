@@ -159,7 +159,7 @@ void Core::initTextures()
 	systemHandle::loadTexture(m_path::button_quit);
 	systemHandle::loadTexture(m_path::button_singleplayer);
 	systemHandle::loadTexture(m_path::tilesheet);
-
+	systemHandle::loadTexture(m_path::itemsheet);
 }
 
 void Core::initFonts()
@@ -252,7 +252,7 @@ void Core::updateTextDebug()
 	auto m = static_cast<sf::Vector2i>(systemHandle::getMousePosView());
 	auto n = systemHandle::getMousePosWindow();
 	std::stringstream ss;
-	ss << m.x << " " << m.y;
+	ss << n.x << " " << n.y;
 	text.setCharacterSize(16);
 	text.setOutlineThickness(2.f);
 	text.setString(ss.str());

@@ -5,6 +5,7 @@
 
 GameState::GameState(const std::string& filePath)
 {
+	TileBase::init();
 	m_p.filePath = filePath;
 	loadSave(filePath);
 	init();
@@ -24,6 +25,10 @@ void GameState::update()
 		updateMoving();
 		player->update();
 		tileMap->update();
+		inventory->update();
+		
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			inventory->addItem(tileMap->mineBlock(systemHandle::getMousePosView().x, systemHandle::getMousePosView().y));
 	}
 	else
 	{
@@ -40,9 +45,14 @@ void GameState::render(sf::RenderTarget* target)
 	player->render(target);
 
 	if (!pmenu->isPause())
+	{
 		tileMap->render(target);
+	}
 
 	target->setView(target->getDefaultView());
+
+	if (!pmenu->isPause())
+		inventory->render(target);
 
 	if (pmenu->isPause())
 		pmenu->render(target);
@@ -53,6 +63,7 @@ void GameState::init()
 {
 	player = std::make_unique<Player>();
 	pmenu = std::make_unique<PauseMenu>();
+	inventory = std::make_unique<Inventory>();
 }
 
 void GameState::loadSave(const std::string& filePath)

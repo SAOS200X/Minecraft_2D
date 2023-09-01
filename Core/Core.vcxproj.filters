@@ -36,9 +36,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>States</Filter>
-    </ClCompile>
     <ClCompile Include="SettingState.cpp">
       <Filter>States</Filter>
     </ClCompile>
@@ -96,6 +93,11 @@
     <ClCompile Include="PauseMenu.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryBase.cpp" />
+    <ClCompile Include="GameState.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuState.h">
@@ -106,9 +108,6 @@
     </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>States</Filter>
     </ClInclude>
     <ClInclude Include="SettingState.h">
       <Filter>States</Filter>
@@ -164,5 +163,10 @@
     <ClInclude Include="PauseMenu.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="InventoryBase.h" />
+    <ClInclude Include="GameState.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h" />
   </ItemGroup>
 </Project>

@@ -19,18 +19,24 @@ SinglePlayerState::~SinglePlayerState()
 
 void SinglePlayerState::update()
 {
+	static bool select = false;
 	for (auto& i : saves)
 	{
 		i.update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
 		if (i.isSelect())
 		{
-			buttons.at("PLAY")->setActive(true);
+			select = true;
 			pathIndex = i.getSaves().filePath;
 		}
 	}
 	for (auto& i : buttons)
 		i.second->update(static_cast<sf::Vector2f>(systemHandle::getMousePosWindow()), systemHandle::isButtonPressed(sf::Mouse::Left));
 
+	if (!select && pathIndex.size())
+		pathIndex.clear();
+	if (!pathIndex.empty())
+		select = false;
+	buttons.at("PLAY")->setActive(pathIndex.size() || select);
 	updateButtonActive();
 }
 

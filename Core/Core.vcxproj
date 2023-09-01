@@ -105,6 +105,8 @@
     <ClCompile Include="gameSave.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="inordered_map.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryBase.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="NewWorldState.cpp" />
@@ -133,6 +135,8 @@
     <ClInclude Include="gameSave.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="inordered_map.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryBase.h" />
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="NewWorldState.h" />
     <ClInclude Include="PauseMenu.h" />

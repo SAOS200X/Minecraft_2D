@@ -54,10 +54,10 @@ void NewWorldState::initTextBoxs()
 
 void NewWorldState::initButton()
 {
-	buttons.insert({ "CREATE",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 100.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), 
+	buttons.insert({ "CREATE",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f - 300.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f), 
 		systemHandle::getFont(), 24, "Create New World") });
 
-	buttons.insert({ "CANCEL",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 100.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f),
+	buttons.insert({ "CANCEL",new Button(systemHandle::getTexture(m_path::button_blank), sf::Vector2f(systemHandle::getWindow()->getSize().x / 2.f + 300.f, systemHandle::getWindow()->getSize().y * 6.f / 7.f),
 		systemHandle::getFont(), 24, "Cancel") });
 }
 

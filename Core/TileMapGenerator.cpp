@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "TileMapGenerator.h"
 
-void TileMapGenerator::generator(sf::Vector2i size, TileBase* tileBase, std::map<int, std::map<int, TileBase::Tile >>& tileMap)
+void TileMapGenerator::generator(sf::Vector2i size, std::map<int, std::map<int, TileBase::Tile >>& tileMap, std::map<std::string, unsigned char>& tileName)
 {
-	unsigned char id = tileBase->textureName["stone"];
+	unsigned char id = tileName["stone"];
 	float SeconeSpawnRate = 0.f;
 	unsigned short MaxOre = 0;
 	int RNG = 0;
@@ -13,17 +13,17 @@ void TileMapGenerator::generator(sf::Vector2i size, TileBase* tileBase, std::map
 		{
 			if (y < 1)
 			{
-				id = tileBase->textureName["grass"];
+				id = tileName["grass"];
 				MaxOre = 0;
 			}
 			else if (y < 3)
 			{
-				id = tileBase->textureName["dirt"];
+				id = tileName["dirt"];
 				MaxOre = 0;
 			}
 			else if (y == size.y)
 			{
-				id = tileBase->textureName["bedrock"];
+				id = tileName["bedrock"];
 				MaxOre = 0;
 			}
 			else
@@ -32,47 +32,47 @@ void TileMapGenerator::generator(sf::Vector2i size, TileBase* tileBase, std::map
 
 				if ((RNG >= 0) && (RNG < OreRate::DIAMOND))
 				{
-					id = tileBase->textureName["diamond_ore"];
+					id = tileName["diamond_ore"];
 					SeconeSpawnRate = 0.64f;
 					MaxOre = 5;
 				}
 				else if ((RNG >= OreRate::DIAMOND) && (RNG < OreRate::EMERALD))
 				{
-					id = tileBase->textureName["emerald_ore"];
+					id = tileName["emerald_ore"];
 					SeconeSpawnRate = 0.57f;
 					MaxOre = 4;
 				}
 				else if ((RNG >= OreRate::EMERALD) && (RNG < OreRate::LAPIZ))
 				{
-					id = tileBase->textureName["lapiz_ore"];
+					id = tileName["lapiz_ore"];
 					SeconeSpawnRate = 0.72f;
 					MaxOre = 7;
 
 				}
 				else if ((RNG >= OreRate::LAPIZ) && (RNG < OreRate::REDSTONE))
 				{
-					id = tileBase->textureName["redstone_ore"];
+					id = tileName["redstone_ore"];
 					SeconeSpawnRate = 0.72f;
 					MaxOre = 7;
 
 				}
 				else if ((RNG >= OreRate::REDSTONE) && (RNG < OreRate::GOLD))
 				{
-					id = tileBase->textureName["gold_ore"];
+					id = tileName["gold_ore"];
 					SeconeSpawnRate = 0.78f;
 					MaxOre = 9;
 
 				}
 				else if ((RNG >= OreRate::GOLD) && (RNG < OreRate::IRON))
 				{
-					id = tileBase->textureName["iron_ore"];
+					id = tileName["iron_ore"];
 					SeconeSpawnRate = 0.82f;
 					MaxOre = 11;
 
 				}
 				else if ((RNG >= OreRate::IRON) && (RNG < OreRate::COAL))
 				{
-					id = tileBase->textureName["coal_ore"];
+					id = tileName["coal_ore"];
 					SeconeSpawnRate = 0.84f;
 					MaxOre = 13;
 
@@ -85,7 +85,7 @@ void TileMapGenerator::generator(sf::Vector2i size, TileBase* tileBase, std::map
 				}
 				else
 				{
-					id = tileBase->textureName["stone"];
+					id = tileName["stone"];
 					SeconeSpawnRate = 0.f;
 					MaxOre = 0;
 				}

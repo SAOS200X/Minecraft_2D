@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include <variant>
+#include <optional>
 
 #include "SFML/Graphics.hpp"
 #include <Windows.h>

@@ -36,7 +36,6 @@ private:
     std::unique_ptr<Player> player;
     std::unique_ptr<TileMap> tileMap;
     std::unique_ptr<PauseMenu> pmenu;
-
-
+    std::unique_ptr<Inventory> inventory;
 };
 

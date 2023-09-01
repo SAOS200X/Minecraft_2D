@@ -19,8 +19,7 @@ namespace m_path {
 	const string font_0 = "resource/material/font.ttf";
 	const string font_1 = "resource/material/MC_regular.otf";
 	const string tilesheet = "resource/material/tile_sheet.png";
-
-
+	const string itemsheet = "resource/material/item_sheet.png";
 }
 
 
@@ -72,6 +71,12 @@ C getMin(T...args)
 
 	return c;
 }
+
+template<typename T, typename A, typename B>
+inline sf::Vector2<T>&& Vector2(const A& a, const B& b) { return std::move(sf::Vector2<T>(static_cast<T>(a), static_cast<T>(b))); }
+
+template<typename T, typename ty>
+inline sf::Vector2<T>&& Vector2(const ty& arg) { return std::move(sf::Vector2<T>(static_cast<T>(arg), static_cast<T>(arg))); }
 
 template<typename T>
 inline bool operator<(const sf::Vector2<T>& left, const sf::Vector2<T>& right) { return (left.x < right.x); }

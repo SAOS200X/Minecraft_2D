@@ -4,7 +4,7 @@
 struct TileMapGenerator
 {
 public:
-	static void generator(sf::Vector2i size, TileBase* tileBase, std::map<int, std::map<int, TileBase::Tile >>& tileMap);
+	static void generator(sf::Vector2i size, std::map<int, std::map<int, TileBase::Tile >>& tileMap, std::map<std::string, unsigned char>& tileName);
 	
 private:
 	enum OreRate {

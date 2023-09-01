@@ -18,10 +18,10 @@ dllprocess void start()
 //	DONE Use Define value and filename incode  
 //	DONE Add more config and Apperant         
 //		work with Game State   
-//			menu when esc and save game             
+//  DONE menu when esc and save game             
 //		create player class
 //			Work with game physics
-// DONE	create tiles map
+//  DONE	create tiles map
 //			Enhance Tile Map generation
 //      some game mechanism
 //		Fix Game FPS and CPU
